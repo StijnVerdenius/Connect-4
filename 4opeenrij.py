@@ -9,21 +9,25 @@ import boardDef
 
 
 def interface():
+
+	# initialization
 	monte = monteCarlos.algorithm()
 	nn = nnPlayer.algorithm(buildDataset = False)
-	begonnen = False
-	tegenstanderGekozen1 = False
-	tegenstanderGekozen2 = False
+	started = False
+	chosenOpponent1 = False
+	chosenOpponent2 = False
 	playerX = None
 	playerO = None
 	krossOnMove = False
 	board = boardDef.board()
-	while(not begonnen):
+
+	# choosing oponents
+	while(not started):
 		choice1 = ""
 		choice2 = ""
-		if (not tegenstanderGekozen1):
+		if (not chosenOpponent1):
 			choice1 = raw_input('select player O: [Human, monteCarlos, NN] ')
-		if (not tegenstanderGekozen2):
+		if (not chosenOpponent2):
 			choice2 = raw_input('select player X: [Human, monteCarlos, NN] ')
 		
 		if (choice1 in ["Human", "monteCarlos", "NN"]): 
@@ -34,7 +38,7 @@ def interface():
 				playerO = nn
 			else:
 				playerO = choice1
-			tegenstanderGekozen1 = True
+			chosenOpponent1 = True
 		if (choice2 in ["Human", "monteCarlos", "NN"]):
 			
 			if(choice2 == "monteCarlos"):
@@ -44,14 +48,13 @@ def interface():
 				playerX = nn
 			else:
 				playerX = choice2
-			tegenstanderGekozen2 = True
+			chosenOpponent2 = True
 
-		if (tegenstanderGekozen1 and tegenstanderGekozen2):
-			begonnen = True
+		if (chosenOpponent1 and chosenOpponent2):
+			started = True
 
 
-		
-	
+	# play game
 	while (not board.checkVictory("O") and not board.checkVictory("X")):
 		print "current board :"
 		board.toString()
@@ -75,12 +78,13 @@ def interface():
 			
 		krossOnMove = not krossOnMove
 	
-	board.toString()
-	board.checkVictory("O", printing = True)
-	board.checkVictory("X", printing = True)
+	# show winner
+	aftermath(board)
 
 
 def playerMove(board, krossOnMove):
+	""" doing a move for a player """
+
 	yourmove = -1
 	correctMove = False
 	while (yourmove < 1 or yourmove > 8 or not correctMove):
@@ -95,6 +99,7 @@ def playerMove(board, krossOnMove):
 
 
 def pcMove(board, opponent, time, symbol):
+	""" doing a move for a ai player """
 	
 	moveResult = False
 	while (not moveResult):
@@ -104,13 +109,12 @@ def pcMove(board, opponent, time, symbol):
 		moveResult = board.doMove(move[0], symbol)
 
 def aftermath(board):
+	""" final game aftermath """
+
 	board.toString()
 	board.checkVictory("O", printing = True)
 	board.checkVictory("X", printing = True)
 	return True
-
-
-	
 
 
 interface()

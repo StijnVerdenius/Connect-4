@@ -13,6 +13,8 @@ class algorithm:
 
 
 	def memoize(func):
+		""" @function for cache use """
+
 	    cache = {}
 	    @wraps(func)
 	    def wrap(*args):

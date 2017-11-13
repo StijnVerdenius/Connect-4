@@ -11,7 +11,11 @@ class algorithm:
 		pass
 
 	def decideMove(self, board, symbol, _):
+		""" decides best move """
+		
 		pass
 
 	def decideMovesInOrder(self, board, symbol, _):
+		""" decides moves in order of score """
+
 		pass
