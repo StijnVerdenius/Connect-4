@@ -3,16 +3,20 @@ import numpy as np
 import monteCarlos
 import fuzzyPlayer
 import nnPlayer
+import fuzzyPlayer
 import boardDef
 
 
-
+FUZZ_ARGUMENTS = [3]
+M_CARLOS_ARGUMENTS = [0.8]
+EMPTY_ARGUMENTS = [None]
 
 def interface():
 
 	# initialization
 	monte = monteCarlos.algorithm()
 	nn = nnPlayer.algorithm(buildDataset = False)
+	fuzz = fuzzyPlayer.algorithm()
 	started = False
 	chosenOpponent1 = False
 	chosenOpponent2 = False
@@ -20,37 +24,47 @@ def interface():
 	playerO = None
 	krossOnMove = False
 	board = boardDef.board()
+	argumentsO = None
+	argumentsX = None
 
 	# choosing oponents
 	while(not started):
 		choice1 = ""
 		choice2 = ""
 		if (not chosenOpponent1):
-			choice1 = raw_input('select player O: [Human, monteCarlos, NN] ')
+			choice1 = raw_input('select player O: [Human, MonteCarlos, NN, Fuzzy] ')
 		if (not chosenOpponent2):
-			choice2 = raw_input('select player X: [Human, monteCarlos, NN] ')
+			choice2 = raw_input('select player X: [Human, MonteCarlos, NN, Fuzzy] ')
 		
-		if (choice1 in ["Human", "monteCarlos", "NN"]): 
-			if(choice1 == "monteCarlos"):
+		if (choice1 in ["Human", "MonteCarlos", "NN", "Fuzzy"]): 
+			if(choice1 == "MonteCarlos"):
 				playerO = monte
-				argumentsO = [0.8]
+				argumentsO = M_CARLOS_ARGUMENTS
 			
 			elif(choice1 == "NN"):
 				playerO = nn
-				argumentsO = [None]
+				argumentsO = EMPTY_ARGUMENTS
+			elif(choice1 == "Fuzzy"):
+				playerO = fuzz
+				argumentsO = FUZZ_ARGUMENTS
 			else:
 				playerO = choice1
+				argumentsO = EMPTY_ARGUMENTS
 			chosenOpponent1 = True
-		if (choice2 in ["Human", "monteCarlos", "NN"]):
+		if (choice2 in ["Human", "MonteCarlos", "NN", "Fuzzy"]):
 			
-			if(choice2 == "monteCarlos"):
+			if(choice2 == "MonteCarlos"):
 				playerX = monte
-				argumentsX = [0.8]
+				argumentsX = M_CARLOS_ARGUMENTS
 			elif(choice2 == "NN"):
 				playerX = nn
-				argumentsX = [None]
+				argumentsX = EMPTY_ARGUMENTS
+			elif(choice2 == "Fuzzy"):
+				playerX = fuzz
+				argumentsX = FUZZ_ARGUMENTS
 			else:
 				playerX = choice2
+				argumentsX = EMPTY_ARGUMENTS
 			chosenOpponent2 = True
 
 		if (chosenOpponent1 and chosenOpponent2):
@@ -69,12 +83,12 @@ def interface():
 
 		if (krossOnMove):
 			if (playerX == "Human"):
-				playerMove(board, krossOnMove)
+				playerMove(board, krossOnMove, argumentsX)
 			else:
 				pcMove(board, playerX, argumentsX, "X")
 		else:
 			if (playerO == "Human"):
-				playerMove(board, krossOnMove)
+				playerMove(board, krossOnMove, argumentsO)
 			else:
 				pcMove(board, playerO, argumentsO, "O")
 
@@ -82,10 +96,10 @@ def interface():
 		krossOnMove = not krossOnMove
 	
 	# show winner
-	aftermath(board)
+	afterMath(board)
 
 
-def playerMove(board, krossOnMove):
+def playerMove(board, krossOnMove, arguments):
 	""" doing a move for a player """
 
 	yourmove = -1
@@ -111,8 +125,8 @@ def pcMove(board, opponent, arguments, symbol):
 		print "Chosen Move: ", move[0]
 		moveResult = board.doMove(move[0], symbol)
 
-def aftermath(board):
-	""" final game aftermath """
+def afterMath(board):
+	""" final game afterMath """
 
 	board.toString()
 	board.checkVictory("O", printing = True)
