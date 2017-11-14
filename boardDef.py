@@ -4,6 +4,8 @@ import numpy as np
 
 class board:
 	def __init__(self, n=8, m=8):
+
+		# initiation
 		self.length = n
 		self.height = m
 		self.board = []
@@ -14,6 +16,8 @@ class board:
 			self.board.append(newline)
 
 	def possibleMoves(self):
+		""" returns possible moves on a board """
+
 		possible = []
 		for x in range(len(self.board)):
 			if (self.board[0][x] == " "):
@@ -22,8 +26,12 @@ class board:
 
 
 	def doMove(self, position, symbol):
+		""" does move on a board """
+
+		# start from the bottom up
 		for row in range(-self.height,0)[::-1]:
 
+			# if empty, place symbol
 			if (self.board[row][position-1] == " "):
 				
 				self.board[row][position-1] = symbol
@@ -31,42 +39,54 @@ class board:
 		return False
 
 	def checkVictory(self, symbol, printing = False):
+		""" checks wether victory is been made by symbol of choice """
+
 		condition =(("'"+symbol+"', ")*4)[:-2]
 		
-		if (not self.checkrows(symbol, condition)):
+		if (not self.checkRows(condition)):
 			
-			if (not self.checkcollumns(symbol, condition)):
+			if (not self.checkCollumns(condition)):
 				
-				if (not self.checkdiag(symbol, condition)):
+				if (not self.checkDiag(condition)):
 		
 					return False
 		if (printing):
 			print "WINNER : ", symbol
 		return True
 
-	def countrows(self, condition):
+	def countRows(self, condition):
+		""" counts all occurences in rows for a certain pattern/condition """
+
 		counter = 0
 		for row in self.board:
 			counter += str(row).count(condition)
 				
 		return counter
 
-	def countcollumns(self, condition):
+	def countCollumns(self, condition):
+		""" counts all occurences in collumns for a certain pattern/condition """
+
 		counter = 0
 		for collumn in zip(*self.board):
 			counter += str(collumn).count(condition)
 		return counter
 
-	def countdiag(self, condition):
+	def countDiag(self, condition):
+		""" counts all occurences in diagonals for a certain pattern/condition """
+
 		counter = 0
 		for x in range(5):
-			listi = [r[i+x] for i, r in list(enumerate(self.board))[:8-x]] + ["ban"] + [r[-i-x-1] for i, r in list(enumerate(self.board))[:8-x]] + ["ban"] + [r[i-x] for i, r in list(enumerate(self.board))[x:]] + ["ban"] + [r[-i+x-1] for i, r in list(enumerate(self.board))[x:]]
+
+			# this one is a bit complicated
+			listi = [r[i+x] for i, r in list(enumerate(self.board))[:8-x]] + ["_"] + [r[-i-x-1] for i, r in list(enumerate(self.board))[:8-x]] + ["_"] + [r[i-x] for i, r in list(enumerate(self.board))[x:]] + ["_"] + [r[-i+x-1] for i, r in list(enumerate(self.board))[x:]]
 			counter += str(listi).count(condition)
 		return counter
 
 
 
-	def checkrows(self, symbol, condition):
+	def checkRows(self, condition):
+		""" checks all occurences in rows for a certain pattern/condition """
+
 		i = 0 
 		for row in self.board:
 			
@@ -75,7 +95,9 @@ class board:
 			i += 1
 		return False
 
-	def checkcollumns(self, symbol, condition):
+	def checkCollumns(self, condition):
+		""" checks all occurences in collumns for a certain pattern/condition """
+
 		i = 0
 		for collumn in zip(*self.board):
 
@@ -85,7 +107,9 @@ class board:
 			i += 1
 		return False
 
-	def checkdiag(self, symbol, condition):
+	def checkDiag(self, condition):
+		""" checks all occurences in diagonals for a certain pattern/condition """
+
 		for x in range(5):
 			
 			listi = [r[i+x] for i, r in list(enumerate(self.board))[:8-x]] + ["ban"] + [r[-i-x-1] for i, r in list(enumerate(self.board))[:8-x]] + ["ban"] + [r[i-x] for i, r in list(enumerate(self.board))[x:]] + ["ban"] + [r[-i+x-1] for i, r in list(enumerate(self.board))[x:]]
@@ -96,6 +120,8 @@ class board:
 
 
 	def toString(self):
+		""" pretty prints board """
+
 		stri = "\n   1   2   3   4   5   6   7   8   \n"
 		for y in self.board:
 			stri = stri+"|"
@@ -106,6 +132,13 @@ class board:
 
 
 	def countBoard(self, condition):
-		return (self.countrows(condition)+ self.countcollumns(condition)+ self.countdiag(condition))
+		""" combine 3 count functions """
+
+		return (self.countRows(condition)+ self.countCollumns(condition)+ self.countDiag(condition))
+
+	def checkBoard(self, condition):
+		""" combine 3 check functions """
+
+		return (self.checkRows(condition)+ self.checkCollumns(condition)+ self.checkDiag(condition))
 
 		
