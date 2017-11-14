@@ -43,13 +43,18 @@ class board:
 
 		condition =(("'"+symbol+"', ")*4)[:-2]
 		
+		# check for appearance in order of computational complexity
 		if (not self.checkRows(condition)):
 			
 			if (not self.checkColumns(condition)):
 				
 				if (not self.checkDiag(condition)):
-		
+
+					# if its not in rows, columns or diagonals return false
 					return False
+
+
+				
 		if (printing):
 			print "WINNER : ", symbol
 		return True
@@ -67,6 +72,8 @@ class board:
 		""" counts all occurences in columns for a certain pattern/condition """
 
 		counter = 0
+
+		# the zip is a transpose
 		for column in zip(*self.board):
 			counter += str(column).count(condition)
 		return counter
@@ -99,6 +106,8 @@ class board:
 		""" checks all occurences in columns for a certain pattern/condition """
 
 		i = 0
+
+		# the zip is a transpose
 		for column in zip(*self.board):
 
 			

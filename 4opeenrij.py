@@ -29,6 +29,8 @@ def interface():
 
 	# choosing oponents
 	while(not started):
+
+		# getting input
 		choice1 = ""
 		choice2 = ""
 		if (not chosenOpponent1):
@@ -36,6 +38,8 @@ def interface():
 		if (not chosenOpponent2):
 			choice2 = raw_input('select player X: [Human, MonteCarlos, NN, Fuzzy] ')
 		
+
+		# evaluate input
 		if (choice1 in ["Human", "MonteCarlos", "NN", "Fuzzy"]): 
 			if(choice1 == "MonteCarlos"):
 				playerO = monte
@@ -137,7 +141,7 @@ def afterMath(board):
 interface()
 
 
-###### time measurement
+###### time measurement tool
 
 # import cProfile, pstats, StringIO
 # pr = cProfile.Profile()
