@@ -15,41 +15,41 @@ class algorithm:
 	def memoize(func):
 		""" @function for cache use """
 
-	    cache = {}
-	    @wraps(func)
-	    def wrap(*args):
-	        if str(args) not in cache:
-	            cache[str(args)] = func(*args)	            
-	        return cache[str(args)]
-	    return wrap
+		cache = {}
+		@wraps(func)
+		def wrap(*args):
+			if str(args) not in cache:
+				cache[str(args)] = func(*args)	            
+			return cache[str(args)]
+		return wrap
 
 	
 
-	def decideMove(self, board, symbol, timelimit):
+	def decideMove(self, board, symbol, arguments):
 		""" decides best move """
 
-		bestmove = (-1,-1)
-
+		bestMove = (-1,-1)
+		timeLimit = arguments[0]
 		for move in board.possibleMoves():
-			movescore = self.simulateMove(board,symbol,timelimit, move)
-			if (movescore > bestmove[1]):
-				bestmove = (move, movescore)
-			print "move : " , move, "score : ", str(100.0*movescore)[:5]
-		return bestmove
+			moveScore = self.simulateMove(board,symbol,timeLimit, move)
+			if (moveScore > bestMove[1]):
+				bestMove = (move, moveScore)
+			print "move : " , move, "score : ", str(100.0*moveScore)[:5]
+		return bestMove
 
-	def decideMovesInOrder(self, board, symbol, timelimit):
+	def decideMovesInOrder(self, board, symbol, timeLimit):
 		""" decides moves in order of score """
 
 		moves = []
 
 		for move in  board.possibleMoves():
-			movescore = self.simulateMove(board,symbol,timelimit, move)
-			moves.append(movescore)
+			moveScore = self.simulateMove(board,symbol,timeLimit, move)
+			moves.append(moveScore)
 		return moves
 
 	
 
-	def simulateMove(self, board,symbol,timelimit, move):
+	def simulateMove(self, board,symbol,timeLimit, move):
 		""" take a random sample of a move by scre for a certain time limit """
 
 		simulationScore = 0.0
@@ -60,7 +60,7 @@ class algorithm:
 		
 		# set time
 		start = time.time()
-		while( (time.time() - start) < timelimit):
+		while( (time.time() - start) < timeLimit):
 
 			simulationScore  += self.simulation(deepcopy(board), cross, move, symbol)
 			simulationAmount += 1.0

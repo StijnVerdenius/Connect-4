@@ -21,7 +21,7 @@ class algorithm:
 		# lazy depthfirst of 2 steps deep
 
 		# initialization
-		bestmove = (-100000,-100000)
+		bestMove = (-100000,-100000)
 		for move in board.possibleMoves():
 
 			# copy board and do move
@@ -31,33 +31,33 @@ class algorithm:
 			# second recursion step
 			score = 0
 			possible = newBoard.possibleMoves()
-			for countermove in possible:
+			for counterMove in possible:
 				newSymbol = "O"
 				if (symbol == "O"):
 					newSymbol = "X"
 
 				# copy board and do move
 				newNewBoard = deepcopy(newBoard)
-				newNewBoard.doMove(countermove, newSymbol)
+				newNewBoard.doMove(counterMove, newSymbol)
 
 				# make a dataentry for nearal network check
-				boardentry, _ = self.createDataEntry(newNewBoard)
+				boardEntry, _ = self.createDataEntry(newNewBoard)
 				
 				# add score for first layer deep
 				if (symbol == "O"):
-					score -= float(self.classifier.predict(self.scaler.transform(np.array([boardentry])))[0])
+					score -= float(self.classifier.predict(self.scaler.transform(np.array([boardEntry])))[0])
 				else:
-					score += float(self.classifier.predict(self.scaler.transform(np.array([boardentry])))[0])
+					score += float(self.classifier.predict(self.scaler.transform(np.array([boardEntry])))[0])
 			
 			# take average of score
-			movescore = (score+0.0) / (len(possible)+0.1)
+			moveScore = (score+0.0) / (len(possible)+0.1)
 
-			print "move : " , move, "score : ", str(movescore/2.0)[:5]
+			print "move : " , move, "score : ", str(moveScore/2.0)[:5]
 
 			# save if better than before
-			if (movescore > bestmove[1]):
-				bestmove = (move, movescore)
-		return bestmove
+			if (moveScore > bestMove[1]):
+				bestMove = (move, moveScore)
+		return bestMove
 
 	def decideMovesInOrder(self, board, symbol, _):
 		""" decides moves in order of score """
@@ -68,23 +68,23 @@ class algorithm:
 			newBoard.doMove(move, symbol)
 			score = 0
 			possible = newBoard.possibleMoves()
-			for countermove in possible:
+			for counterMove in possible:
 				newSymbol = "O"
 				if (symbol == "O"):
 					newSymbol = "X"
 
 
-				newNewBoard = self.doMove(deepcopy(newBoard), countermove, newSymbol)[0]
+				newNewBoard = self.doMove(deepcopy(newBoard), counterMove, newSymbol)[0]
 				newNewBoard = deepcopy(newBoard)
-				newNewBoard.doMove(countermove, newSymbol)
-				boardentry, _ = self.createDataEntry(newNewBoard)
+				newNewBoard.doMove(counterMove, newSymbol)
+				boardEntry, _ = self.createDataEntry(newNewBoard)
 
 				if (symbol == "O"):
-					score -= float(self.classifier.predict(self.scaler.transform(np.array([boardentry])))[0])
+					score -= float(self.classifier.predict(self.scaler.transform(np.array([boardEntry])))[0])
 				else:
-					score += float(self.classifier.predict(self.scaler.transform(np.array([boardentry])))[0]) #.reshape(-1,1)
-			movescore = (score+0.0) / (len(possible)+0.1)
-			moves.append(movescore)
+					score += float(self.classifier.predict(self.scaler.transform(np.array([boardEntry])))[0]) #.reshape(-1,1)
+			moveScore = (score+0.0) / (len(possible)+0.1)
+			moves.append(moveScore)
 		return moves
 
 

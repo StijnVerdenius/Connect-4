@@ -33,9 +33,11 @@ def interface():
 		if (choice1 in ["Human", "monteCarlos", "NN"]): 
 			if(choice1 == "monteCarlos"):
 				playerO = monte
+				argumentsO = [0.8]
 			
 			elif(choice1 == "NN"):
 				playerO = nn
+				argumentsO = [None]
 			else:
 				playerO = choice1
 			chosenOpponent1 = True
@@ -43,9 +45,10 @@ def interface():
 			
 			if(choice2 == "monteCarlos"):
 				playerX = monte
-			
+				argumentsX = [0.8]
 			elif(choice2 == "NN"):
 				playerX = nn
+				argumentsX = [None]
 			else:
 				playerX = choice2
 			chosenOpponent2 = True
@@ -68,12 +71,12 @@ def interface():
 			if (playerX == "Human"):
 				playerMove(board, krossOnMove)
 			else:
-				pcMove(board, playerX, 0.8, "X")
+				pcMove(board, playerX, argumentsX, "X")
 		else:
 			if (playerO == "Human"):
 				playerMove(board, krossOnMove)
 			else:
-				pcMove(board, playerO, 0.8, "O")
+				pcMove(board, playerO, argumentsO, "O")
 
 			
 		krossOnMove = not krossOnMove
@@ -98,12 +101,12 @@ def playerMove(board, krossOnMove):
 			correctMove = True
 
 
-def pcMove(board, opponent, time, symbol):
+def pcMove(board, opponent, arguments, symbol):
 	""" doing a move for a ai player """
 	
 	moveResult = False
 	while (not moveResult):
-		move = opponent.decideMove(board, symbol, time)
+		move = opponent.decideMove(board, symbol, arguments)
 
 		print "Chosen Move: ", move[0]
 		moveResult = board.doMove(move[0], symbol)
