@@ -45,7 +45,7 @@ class board:
 		
 		if (not self.checkRows(condition)):
 			
-			if (not self.checkCollumns(condition)):
+			if (not self.checkColumns(condition)):
 				
 				if (not self.checkDiag(condition)):
 		
@@ -63,12 +63,12 @@ class board:
 				
 		return counter
 
-	def countCollumns(self, condition):
-		""" counts all occurences in collumns for a certain pattern/condition """
+	def countColumns(self, condition):
+		""" counts all occurences in columns for a certain pattern/condition """
 
 		counter = 0
-		for collumn in zip(*self.board):
-			counter += str(collumn).count(condition)
+		for column in zip(*self.board):
+			counter += str(column).count(condition)
 		return counter
 
 	def countDiag(self, condition):
@@ -95,14 +95,14 @@ class board:
 			i += 1
 		return False
 
-	def checkCollumns(self, condition):
-		""" checks all occurences in collumns for a certain pattern/condition """
+	def checkColumns(self, condition):
+		""" checks all occurences in columns for a certain pattern/condition """
 
 		i = 0
-		for collumn in zip(*self.board):
+		for column in zip(*self.board):
 
 			
-			if (condition in str(collumn)):
+			if (condition in str(column)):
 				return True
 			i += 1
 		return False
@@ -112,7 +112,8 @@ class board:
 
 		for x in range(5):
 			
-			listi = [r[i+x] for i, r in list(enumerate(self.board))[:8-x]] + ["ban"] + [r[-i-x-1] for i, r in list(enumerate(self.board))[:8-x]] + ["ban"] + [r[i-x] for i, r in list(enumerate(self.board))[x:]] + ["ban"] + [r[-i+x-1] for i, r in list(enumerate(self.board))[x:]]
+			# this one is a bit complicated
+			listi = [r[i+x] for i, r in list(enumerate(self.board))[:8-x]] + ["_"] + [r[-i-x-1] for i, r in list(enumerate(self.board))[:8-x]] + ["_"] + [r[i-x] for i, r in list(enumerate(self.board))[x:]] + ["_"] + [r[-i+x-1] for i, r in list(enumerate(self.board))[x:]]
 			if (condition in str(listi)):
 				return True
 				
@@ -134,11 +135,11 @@ class board:
 	def countBoard(self, condition):
 		""" combine 3 count functions """
 
-		return (self.countRows(condition)+ self.countCollumns(condition)+ self.countDiag(condition))
+		return (self.countRows(condition)+ self.countColumns(condition)+ self.countDiag(condition))
 
 	def checkBoard(self, condition):
 		""" combine 3 check functions """
 
-		return (self.checkRows(condition)+ self.checkCollumns(condition)+ self.checkDiag(condition))
+		return (self.checkRows(condition)+ self.checkColumns(condition)+ self.checkDiag(condition))
 
 		
