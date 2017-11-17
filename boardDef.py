@@ -1,6 +1,6 @@
 
 import numpy as np
-
+from copy import deepcopy
 
 class board:
 	def __init__(self, n=8, m=8):
@@ -150,5 +150,46 @@ class board:
 		""" combine 3 check functions """
 
 		return (self.checkRows(condition)+ self.checkColumns(condition)+ self.checkDiag(condition))
+
+	def evaluateBoard(self, symbol):
+		""" evaluates board on winning, near winning etc.. positions """
+
+		winInOne, winInTwo, winInThree = self.countWinIn(3, symbol)
+		certainWin = (winInOne>1)
+		return winInOne, winInTwo, winInThree, certainWin
+
+	def countWinIn(self, number, symbol):
+		""" Counts winin1 winin2 winin3 """
+
+		one = 0
+		two = 0
+		three = 0
+
+		# win in 1
+		for move in self.possibleMoves():
+			newBoard = deepcopy(self)
+			newBoard.doMove(move, symbol)
+			if (newBoard.checkVictory(symbol)):
+				one += 1
+
+			# win in 2
+			if (number < 2):
+				break
+			for move2 in newBoard.possibleMoves():
+				newNewBoard = deepcopy(newBoard)
+				newNewBoard.doMove(move2, symbol)
+				if (newNewBoard.checkVictory(symbol)):
+					two += 1
+
+				# win in 3
+				if (number < 3):
+					break
+				for move3 in newNewBoard.possibleMoves():
+					newNewNewBoard = deepcopy(newNewBoard)
+					newNewNewBoard.doMove(move3, symbol)
+					if (newNewNewBoard.checkVictory(symbol)):
+						three += 1
+
+		return one, two, three
 
 		

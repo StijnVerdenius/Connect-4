@@ -4,6 +4,7 @@ import monteCarlos
 import fuzzyPlayer
 import nnPlayer
 import fuzzyPlayer
+import dumbplayer
 import boardDef
 
 
@@ -17,6 +18,7 @@ def interface():
 	monte = monteCarlos.algorithm()
 	nn = nnPlayer.algorithm(buildDataset = False)
 	fuzz = fuzzyPlayer.algorithm()
+	brute = dumbplayer.algorithm()
 	started = False
 	chosenOpponent1 = False
 	chosenOpponent2 = False
@@ -34,17 +36,19 @@ def interface():
 		choice1 = ""
 		choice2 = ""
 		if (not chosenOpponent1):
-			choice1 = raw_input('select player O: [Human, MonteCarlos, NN, Fuzzy] ')
+			choice1 = raw_input('select player O: [Human, MonteCarlos, NN, Fuzzy, Brute] ')
 		if (not chosenOpponent2):
-			choice2 = raw_input('select player X: [Human, MonteCarlos, NN, Fuzzy] ')
+			choice2 = raw_input('select player X: [Human, MonteCarlos, NN, Fuzzy, Brute] ')
 		
 
 		# evaluate input
-		if (choice1 in ["Human", "MonteCarlos", "NN", "Fuzzy"]): 
+		if (choice1 in ["Human", "MonteCarlos", "NN", "Fuzzy", "Brute"]): 
 			if(choice1 == "MonteCarlos"):
 				playerO = monte
 				argumentsO = M_CARLOS_ARGUMENTS
-			
+			elif(choice1 == "Brute"):
+				playerO = brute
+				argumentsO = EMPTY_ARGUMENTS
 			elif(choice1 == "NN"):
 				playerO = nn
 				argumentsO = EMPTY_ARGUMENTS
@@ -55,11 +59,14 @@ def interface():
 				playerO = choice1
 				argumentsO = EMPTY_ARGUMENTS
 			chosenOpponent1 = True
-		if (choice2 in ["Human", "MonteCarlos", "NN", "Fuzzy"]):
+		if (choice2 in ["Human", "MonteCarlos", "NN", "Fuzzy", "Brute"]):
 			
 			if(choice2 == "MonteCarlos"):
 				playerX = monte
 				argumentsX = M_CARLOS_ARGUMENTS
+			elif(choice2 == "Brute"):
+				playerX = brute
+				argumentsX = EMPTY_ARGUMENTS
 			elif(choice2 == "NN"):
 				playerX = nn
 				argumentsX = EMPTY_ARGUMENTS
@@ -96,8 +103,26 @@ def interface():
 			else:
 				pcMove(board, playerO, argumentsO, "O")
 
-			
+		
 		krossOnMove = not krossOnMove
+		# # print "O", board.evaluateBoard("O")
+		# import cProfile, pstats, StringIO
+		# pr = cProfile.Profile()
+		# pr.enable()
+
+		# for x in range(a):
+		print "O",  board.evaluateBoard("O")
+		print "X",  board.evaluateBoard("X")
+
+		# pr.disable()
+		# print a
+		# s = StringIO.StringIO()
+		# sortby = 'cumulative'
+		# ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
+		# ps.print_stats() 
+		# print s.getvalue()
+		# return
+		
 	
 	# show winner
 	afterMath(board)
@@ -117,6 +142,8 @@ def playerMove(board, krossOnMove, arguments):
 			moveResult = board.doMove(yourmove, "O")
 		if (moveResult):
 			correctMove = True
+
+	
 
 
 def pcMove(board, opponent, arguments, symbol):
@@ -153,5 +180,5 @@ interface()
 # s = StringIO.StringIO()
 # sortby = 'cumulative'
 # ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
-# ps.print_stats() # TODO
+# ps.print_stats() 
 # print s.getvalue()
