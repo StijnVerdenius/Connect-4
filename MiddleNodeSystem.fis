@@ -1,5 +1,5 @@
 [System]
-Name='try fuzzysystem2'
+Name='MiddleNodeSystem'
 Type='mamdani'
 Version=2.0
 NumInputs=2

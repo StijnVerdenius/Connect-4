@@ -1,47 +1,36 @@
 
 from fuzzyToolbox import fuzzyTools
 
+
+"""
+Simply summarizes the two systems we have with default filenames for fis files
+
+"""
+
 class fuzzySystem1(fuzzyTools):
 	
 
-	def __init__(self):
-		fuzzyTools.__init__(self)
+	def __init__(self, filename = "LeafNodeSystem.fis"):
+		fuzzyTools.__init__(self, filename)
 		
-	def createOutput(self, crisp1, crisp2, crisp3):
-		pass
+	
+class fuzzySystem2(fuzzyTools):
+	
 
-	def calculateOwnGain(self):
-		pass
-
-	def calculateOtherGain(self):
-		pass
-
-	def fuzzification(self, crisp1, crisp2, crisp3):
-		
-
-		return fuzz1, fuzz2, fuzz3
-
-	def inference(self):
-		pass
-
-	def defuzzification(self):
-		pass
+	def __init__(self, filename = "MiddleNodeSystem.fis"):
+		fuzzyTools.__init__(self, filename)
 
 
 
+######################
+# not used yet
+######################
 
-###############################
+def saveObject(self, name, objectI):
+		with open(name+'.pkl', 'wb') as output:
+			pickle.dump(objectI, output, pickle.HIGHEST_PROTOCOL)
+		return True
 
-
-
-
-
-
-
-
-# class fuzzysystem2(fuzzyTools):
-# 	def __init__(self):
-# 		fuzzyTools.__init__(self)
-
-
-
+def loadObject(self, name):
+	with open(name+'.pkl', 'rb') as input:
+		return pickle.load(input)
