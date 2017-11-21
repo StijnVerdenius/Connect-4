@@ -164,6 +164,8 @@ class board:
 		one = 0
 		two = 0
 		three = 0
+		symbolelement = ("'"+symbol+"', ")
+		emptyslot = "' ', "
 
 		# win in 1
 		for move in self.possibleMoves():
@@ -174,21 +176,23 @@ class board:
 
 			# win in 2
 			if (number < 2):
-				break
-			for move2 in newBoard.possibleMoves():
-				newNewBoard = deepcopy(newBoard)
-				newNewBoard.doMove(move2, symbol)
-				if (newNewBoard.checkVictory(symbol)):
-					two += 1
+				continue
+			else:
+				for move2 in newBoard.possibleMoves():
+					newNewBoard = deepcopy(newBoard)
+					newNewBoard.doMove(move2, symbol)
+					if (newNewBoard.checkVictory(symbol)):
+						two += 1
 
-				# win in 3
-				if (number < 3):
-					break
-				for move3 in newNewBoard.possibleMoves():
-					newNewNewBoard = deepcopy(newNewBoard)
-					newNewNewBoard.doMove(move3, symbol)
-					if (newNewNewBoard.checkVictory(symbol)):
-						three += 1
+					# win in 3
+					if (number < 3):
+						pattern1 = emptyslot*2+symbolelement
+					else:
+						for move3 in newNewBoard.possibleMoves():
+							newNewNewBoard = deepcopy(newNewBoard)
+							newNewNewBoard.doMove(move3, symbol)
+							if (newNewNewBoard.checkVictory(symbol)):
+								three += 1
 
 		return one, two, three
 

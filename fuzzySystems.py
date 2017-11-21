@@ -7,7 +7,7 @@ class fuzzySystem1(fuzzyTools):
 	def __init__(self):
 		fuzzyTools.__init__(self)
 		
-	def createOutput(self):
+	def createOutput(self, crisp1, crisp2, crisp3):
 		pass
 
 	def calculateOwnGain(self):
@@ -16,8 +16,10 @@ class fuzzySystem1(fuzzyTools):
 	def calculateOtherGain(self):
 		pass
 
-	def fuzzification(self):
-		pass
+	def fuzzification(self, crisp1, crisp2, crisp3):
+		
+
+		return fuzz1, fuzz2, fuzz3
 
 	def inference(self):
 		pass
@@ -37,9 +39,9 @@ class fuzzySystem1(fuzzyTools):
 
 
 
-class fuzzysystem2(fuzzyTools):
-	def __init__(self):
-		fuzzyTools.__init__(self)
+# class fuzzysystem2(fuzzyTools):
+# 	def __init__(self):
+# 		fuzzyTools.__init__(self)
 
 
 
