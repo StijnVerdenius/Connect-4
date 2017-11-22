@@ -1,10 +1,11 @@
 
 import numpy as np
-import monteCarlos
-import fuzzyPlayer
-import nnPlayer
-import fuzzyPlayer
-import dumbplayer
+
+
+import players.MonteCarlos.monteCarlos as monteCarlos
+import players.fuzzyAgent.fuzzyPlayer as fuzzyPlayer
+import players.Neural.nnPlayer as nnPlayer
+import players.BruteForce.dumbplayer as dumbplayer
 import boardDef
 
 

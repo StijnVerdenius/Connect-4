@@ -4,6 +4,8 @@ from collections import defaultdict, Counter
 import sys
 import json
 
+import fuzzyRuleMaker as ruleGenerator
+
 import fuzzyBasics as basic
 
 
@@ -20,11 +22,29 @@ class fuzzyTools(object):
 		self.inputs = None
 		self.outputs = None
 
+
+
 		# create a fuzzy logic system from a fis file
 		if (useFisFile):
 			f = open(filename, "r")
 			self.parseFIS(f)
 			f.close()
+
+
+		data = [
+
+		[1,8,64,11],
+		[64,0,0,0]
+
+
+		] # todo: data creation
+
+		self.ruleGenerator = ruleGenerator.fuzzyRules(data, self.inputs, self.outputs, len(self.reasoner.rulebase.rules), self.reasoner.andMeth, self.reasoner.orMeth, filename)
+		self.reasoner.rulebase.rules = self.reasoner.rulebase.rules + self.ruleGenerator.generatedRules
+
+		
+
+
 
 
 
@@ -37,9 +57,11 @@ class fuzzyTools(object):
 		print "\n\n"
 		print(json.dumps(self, default=jdefault))
 		print "\n\n paste this in: http://jsonviewer.stack.hu/"
-	
 
-	
+
+
+	### Following are functions concerned with fisfile transform to pythonobjects
+
 
 
 	def parseFIS(self, file):
@@ -217,15 +239,11 @@ class fuzzyTools(object):
 
 		return returnList[0]
 
-
-
-	
-
 def breakpoint():
 	2 + "this causes a failure: aka breakpoint"
 			
 def test():
-	filename = "try fuzzysystem1.fis"
+	filename = "LeafNodeSystem.fis"
 	tools = fuzzyTools(filename)
 	tools.visualize()
 

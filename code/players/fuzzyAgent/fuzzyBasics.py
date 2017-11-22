@@ -239,7 +239,7 @@ class Reasoner:
             strt += stepSize
 
 
-    def aggregate(self, firing_strengths ):
+    def aggregate(self, firing_strengths):
         """ aggregates functions given output and firing strength """
         
         # define output

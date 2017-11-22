@@ -10,14 +10,14 @@ Simply summarizes the two systems we have with default filenames for fis files
 class fuzzySystem1(fuzzyTools):
 	
 
-	def __init__(self, filename = "LeafNodeSystem.fis"):
+	def __init__(self, filename = "players/fuzzyAgent/LeafNodeSystem.fis"):
 		fuzzyTools.__init__(self, filename)
 		
 	
 class fuzzySystem2(fuzzyTools):
 	
 
-	def __init__(self, filename = "MiddleNodeSystem.fis"):
+	def __init__(self, filename = "players/fuzzyAgent/LeafNodeSystem/MiddleNodeSystem.fis"):
 		fuzzyTools.__init__(self, filename)
 
 

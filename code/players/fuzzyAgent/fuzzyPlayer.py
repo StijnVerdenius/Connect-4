@@ -34,9 +34,6 @@ class algorithm:
 			owngain = self.one.reasoner.inference([self.turn] + moveScore1)
 			oppgain = self.one.reasoner.inference([self.turn] + moveScore2)
 
-			print [self.turn] + moveScore1, [self.turn] + moveScore2
-			print owngain, oppgain
-
 			moveScore = owngain-oppgain
 
 			if symbol == "O":

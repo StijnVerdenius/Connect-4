@@ -7,13 +7,13 @@ from copy import deepcopy
 import boardDef
 
 class algorithm:
-	def __init__(self, buildDataset = False, datasetSize = 5000):
+	def __init__(self, buildDataset = False, datasetSize = 500):
 
 		# initialization
 		if(buildDataset):
 			self.createDataset(datasetSize)
-		self.classifier = self.loadObject("nn")
-		self.scaler = self.loadObject("nnScaler")
+		self.classifier = self.loadObject("players/Neural/nn")
+		self.scaler = self.loadObject("players/Neural/nnScaler")
 
 	def decideMove(self, board, symbol, _):
 		""" decides best move """
@@ -107,8 +107,8 @@ class algorithm:
 
 		neural = MLPClassifier(hidden_layer_sizes = (10,10))
 		neural.fit(X, y)
-		self.saveObject("nn", neural)
-		self.saveObject("nnScaler", scalerLocale)
+		self.saveObject("players/Neural/nn", neural)
+		self.saveObject("players/Neural/nnScaler", scalerLocale)
 		print "saved"
 
 
@@ -181,18 +181,26 @@ class algorithm:
 			condition5 = (symbolelement*3+emptyslot)[:-2]
 			condition6 = (symbolelement*4)[:-2]
 			conditionlist = [condition1,condition2,condition3,condition4,condition5,condition6]
-			scorelist = [5,20,20,20,20,200]
+			# scorelist = [5,20,20,20,20,200]
 
-			# count for patterns and assign score out of scorelist
-			for i in range(len(scorelist)):
-				score = board.countBoard(conditionlist[i])*scorelist[i]
-				dataEntry.append(score)
-				if (symbol == "O"):
-					score = -1*score
-				scoreCounter += score
+			# count for patterns
+			for i in range(len(conditionlist)):
+				pattern = board.countBoard(conditionlist[i])
+				dataEntry.append(pattern)
+
+			# count for scores
+			moveScore = board.evaluateBoard(symbol)
+
+
+			score = 0
+			scores = [200,8,1]
+			for i in range(3):
+				score += moveScore[i]*scores[i]
+			if symbol == "O":
+				score = -1*score
+			scoreCounter += score
 				
-		dataEntry.append(turnCounter)
-		
+						
 		return dataEntry, scoreCounter
 
 
