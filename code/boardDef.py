@@ -38,6 +38,7 @@ class board:
 				return True
 		return False
 
+	# todo: cache functie mogelijkheid bedenken
 	def checkVictory(self, symbol, printing = False):
 		""" checks wether victory is been made by symbol of choice """
 
@@ -146,6 +147,7 @@ class board:
 
 		return (self.countRows(condition)+ self.countColumns(condition)+ self.countDiag(condition))
 
+	# todo: cache functie mogelijkheid bedenken
 	def checkBoard(self, condition):
 		""" combine 3 check functions """
 

@@ -3,6 +3,7 @@ import numpy as np
 from collections import defaultdict, Counter
 import sys
 import json
+from functools import wraps
 
 
 
@@ -24,6 +25,9 @@ class TriangularMF:
         self.start = start
         self.top = top
         self.end = end
+
+
+
 
     def calculate_membership(self, x):
         """Calculate membership of crisp value"""
@@ -71,6 +75,8 @@ class GaussianMF:
         self.name = name
         self.center = center
         self.sigma = sigma
+        self.start = center-4*sigma
+        self.end = center+4*sigma
 
     def calculate_membership(self, x):
         """Calculate membership of crisp value"""
@@ -205,6 +211,19 @@ class Reasoner:
         self.type = "system"
         self.name = "fuzzylogicsystem"
 
+
+    def memoize(func):
+        """ @function for cache use """
+
+        cache = {}
+        @wraps(func)
+        def wrap(*args):
+            if str(args) not in cache:
+                cache[str(args)] = func(*args)
+            return cache[str(args)]
+        return wrap
+
+    @memoize
     def inference(self, datapoint):
         """ Does the inference three step process """
         
@@ -241,7 +260,7 @@ class Reasoner:
 
     def aggregate(self, firing_strengths):
         """ aggregates functions given output and firing strength """
-        
+
         # define output
         input_value_pairs = []
         

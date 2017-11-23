@@ -17,7 +17,7 @@ class fuzzySystem1(fuzzyTools):
 class fuzzySystem2(fuzzyTools):
 	
 
-	def __init__(self, filename = "players/fuzzyAgent/LeafNodeSystem/MiddleNodeSystem.fis"):
+	def __init__(self, filename = "players/fuzzyAgent/MiddleNodeSystem.fis"):
 		fuzzyTools.__init__(self, filename)
 
 
@@ -34,3 +34,5 @@ def saveObject(self, name, objectI):
 def loadObject(self, name):
 	with open(name+'.pkl', 'rb') as input:
 		return pickle.load(input)
+
+# print fuzzySystem1(filename = "MiddleNodeSystem.fis").reasoner.inference([67, 79])

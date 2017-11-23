@@ -3,6 +3,7 @@ import numpy as np
 from collections import defaultdict, Counter
 import sys
 import json
+from functools import wraps
 
 import fuzzyRuleMaker as ruleGenerator
 
@@ -43,7 +44,16 @@ class fuzzyTools(object):
 		self.reasoner.rulebase.rules = self.reasoner.rulebase.rules + self.ruleGenerator.generatedRules
 
 		
+	def memoize(func):
+		""" @function for cache use """
 
+		cache = {}
+		@wraps(func)
+		def wrap(*args):
+			if str(args) not in cache:
+				cache[str(args)] = func(*args)	            
+			return cache[str(args)]
+		return wrap
 
 
 
@@ -196,7 +206,7 @@ class fuzzyTools(object):
 		""" enriches the rulebaseobject with its settings from fis file """
 
 		# Antecedent creation
-		ant = self.computeAntecedent(list(line.split(",")[0].replace(" ", "")))
+		ant = self.computeAntecedent([int(x) for x in line.split(",")[0].split(" ")])
 		
 		# pick operator
 		op = int(line.split(":")[1][1])
@@ -212,6 +222,7 @@ class fuzzyTools(object):
 		newRule = basic.Rule(i, ant, op, cons, self.reasoner.andMeth, self.reasoner.orMeth)
 		rulebaseOb.rules.append(newRule)
 
+	@memoize
 	def computeAntecedent(self, arguments):
 		""" computes the antecendent for a rule from fis file """
 
@@ -221,10 +232,15 @@ class fuzzyTools(object):
 			if (number == 0):
 				returnList.append("none")
 			else:
-				returnList.append(self.inputs[i].mfs[number-1].name)
+				try:
+					returnList.append(self.inputs[i].mfs[number-1].name)
+				except:
+					print self.inputs, i, self.inputs[-1].mfs, (number-1), arguments
+					breakpoint()
 
 		return returnList
 
+	@memoize
 	def computeConsequent(self, arguments):
 		""" computes the concequent for a rule from fis file """
 

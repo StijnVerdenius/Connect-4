@@ -17,12 +17,14 @@ class algorithm:
 	def __init__(self):
 		self.one = fuzz.fuzzySystem1()
 		self.turn = 0
-		# self.two = fuzz.fuzzySystem2()
+		self.two = fuzz.fuzzySystem2()
 
 	def decideMove(self, board, symbol, arguments):
 		""" decides best move """
 
 		bestMove = (-1,-2)
+		totalscoreOpp = 0
+		totalScoreSelf = 0
 		for move in board.possibleMoves():
 			newboard = deepcopy(board)
 			newboard.doMove(move, symbol)
@@ -33,6 +35,9 @@ class algorithm:
 
 			owngain = self.one.reasoner.inference([self.turn] + moveScore1)
 			oppgain = self.one.reasoner.inference([self.turn] + moveScore2)
+
+			totalscoreOpp += owngain
+			totalScoreSelf += oppgain
 
 			moveScore = owngain-oppgain
 
@@ -45,6 +50,11 @@ class algorithm:
 			
 			print "move : " , move, "score : ", str(moveScore)[:5]
 
+		if symbol == "O":
+			print "evaluation state : ", self.two.reasoner.inference([totalscoreOpp, totalScoreSelf])
+		else: 
+			print "evaluation state : ", self.two.reasoner.inference([totalscoreOpp, totalScoreSelf][::-1])
+		
 		self.turn += 1
 		return bestMove
 		return (board.possibleMoves()[0] , _)

@@ -41,7 +41,7 @@ class fuzzyRules:
 				f.write(line)
 			else:
 				removelist.append(i)
-		for i in removelist:
+		for i in removelist[::-1]:
 			self.generatedRules.pop(i)
 		f.close()
 		
@@ -53,7 +53,7 @@ class fuzzyRules:
 			for j, mf in enumerate(self.inputs[i].mfs):
 				if (mf.name == ant):
 					line = line + str(j+1) + " "
-		line = line + ", "
+		line = line[:-1] + ", "
 		for i, con in enumerate([rule.consequent]):
 			for j, mf in enumerate(self.outputs[i].mfs):
 				if (mf.name == con):
