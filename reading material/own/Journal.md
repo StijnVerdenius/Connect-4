@@ -24,7 +24,6 @@ Set up 4opeenrij.py and other players from a hobby project of this summer
 
 #### 13/11/2017
 
-- 
 - Found out connect-4 is solved for the standard board -> probably better that we used different board
 - made pitch presentation
 
