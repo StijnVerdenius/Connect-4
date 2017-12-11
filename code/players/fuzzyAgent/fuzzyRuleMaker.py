@@ -26,7 +26,7 @@ class fuzzyRules:
 
 		for datapoint in self.dataSet[:]:
 			rule, degree = self.makeRule(datapoint)
-			self.generatedRules.append(rule)
+			self.generatedRules.append((rule, degree))
 
 
 	def saveRules(self, fileName):
