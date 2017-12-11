@@ -2,7 +2,7 @@
 
 ## python fuzzy logic connect-4 agent
 
-### districution of tasks
+### distribution of tasks
 
 Kaj: todo
 Stijn: todo
@@ -24,9 +24,8 @@ Set up 4opeenrij.py and other players from a hobby project of this summer
 
 #### 13/11/2017
 
-- 
 - Found out connect-4 is solved for the standard board -> probably better that we used different board
-- mad pitch presentation
+- made pitch presentation
 
 #### 14/11/2017
 
