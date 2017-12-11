@@ -188,7 +188,8 @@ class board:
 
 					# win in 3
 					if (number < 3):
-						pattern1 = emptyslot*2+symbolelement
+						continue
+						# pattern1 = emptyslot*2+symbolelement
 					else:
 						for move3 in newNewBoard.possibleMoves():
 							newNewNewBoard = deepcopy(newNewBoard)
@@ -197,5 +198,40 @@ class board:
 								three += 1
 
 		return one, two, three
+
+		def countBlocks(self, symbol, opponentSymbol):
+			symbolelement = "'"+symbol+"', "
+			opponentEelement = "'"+opponentSymbol+"', "
+
+			pattern1 = (opponentEelement*3+symbolelement)[:-2]
+			pattern2 = (opponentEelement*2+symbolelement+opponentEelement)[:-2]
+			pattern3 = (opponentEelement+symbolelement+opponentEelement*2)[:-2]
+			pattern4 = (symbolelement+opponentEelement*3)[:-2]
+
+			patternList = [pattern1, pattern2, pattern3, pattern4]
+
+			blocks =0
+
+			for pat in patternList:
+				blocks += self.countBoard(pat)
+			return blocks
+
+
+		def countPotentials(self, symbol):
+			symbolelement = "'"+symbol+"', "
+			emptyslot = "' ', "
+
+			pattern1 = (emptyslot*3+symbolelement)[:-2]
+			pattern2 = (emptyslot*2+symbolelement+emptyslot)[:-2]
+			pattern3 = (emptyslot+symbolelement+emptyslot*2)[:-2]
+			pattern4 = (symbolelement+emptyslot*3)[:-2]
+
+			patternList = [pattern1, pattern2, pattern3, pattern4]
+
+			potentials = 0
+
+			for pat in patternList:
+				potentials += self.countBoard(pat)
+			return potentials
 
 		

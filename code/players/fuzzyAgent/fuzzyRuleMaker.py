@@ -99,5 +99,19 @@ class fuzzyRules:
 	def cleanUpRules(self):
 		pass
 
+
+	def manualDatasetCreator(self):
+		amount = int(raw_input("number of datapoints"))
+		dataset = []
+		for x in range(amount):
+			dataEntry = []
+			
+
+
+
+
+	def automaticDatasetCreator(self):
+		pass
+
 def breakpoint():
 	2 + "this causes a failure: aka breakpoint"
