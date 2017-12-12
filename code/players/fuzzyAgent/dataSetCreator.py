@@ -174,10 +174,7 @@ class dataSet(object):
 
 
 
-dat = dataSet("brute", 1, new=False)
 
-for x in dat.tolist():
-	print x
 
 
 

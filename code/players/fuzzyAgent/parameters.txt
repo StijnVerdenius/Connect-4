@@ -1,0 +1,10 @@
+WinInOne:3
+WinInTwo:6
+Blocks:5
+Potentials:5
+DeltaWinInOne:3
+DeltaWinInTwo:6
+DeltaBlocks:5
+DeltaPotentials:5
+GameProgression:4
+*Gain:12

@@ -4,6 +4,7 @@ from collections import defaultdict, Counter
 import sys
 import json
 from functools import wraps
+import dataSetCreator
 
 import fuzzyRuleMaker as ruleGenerator
 
@@ -23,7 +24,9 @@ class fuzzyTools(object):
 		self.inputs = None
 		self.outputs = None
 
+		self.data = dataSetCreator.dataSet("brute", 100, new=True)
 
+		self.createInputs(filename)
 
 		# create a fuzzy logic system from a fis file
 		if (useFisFile):
@@ -32,12 +35,18 @@ class fuzzyTools(object):
 			f.close()
 
 
-		data = []
-
-		self.ruleGenerator = ruleGenerator.fuzzyRules(data, self.inputs, self.outputs, len(self.reasoner.rulebase.rules), self.reasoner.andMeth, self.reasoner.orMeth, filename)
+	
+		self.ruleGenerator = ruleGenerator.fuzzyRules(self.data.tolist(), self.inputs, self.outputs, len(self.reasoner.rulebase.rules), self.reasoner.andMeth, self.reasoner.orMeth, filename)
 		self.reasoner.rulebase.rules = self.reasoner.rulebase.rules + self.ruleGenerator.generatedRules
 
 		
+	def createInputs(self, fileOut, fileIn = "parameters.txt"):
+		f1 = open(fileIn, "r")
+		f2 = open(fileIn, "a")
+		for line in fileIn:
+			args
+
+
 	def memoize(func):
 		""" @function for cache use """
 
@@ -262,4 +271,4 @@ def test():
 	print tools.reasoner.inference(datapoint)
 
 
-# test()
+test()
