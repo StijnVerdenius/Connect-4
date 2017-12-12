@@ -32,13 +32,7 @@ class fuzzyTools(object):
 			f.close()
 
 
-		data = [
-
-		[1,8,64,11],
-		[64,0,0,0]
-
-
-		] # todo: data creation
+		data = []
 
 		self.ruleGenerator = ruleGenerator.fuzzyRules(data, self.inputs, self.outputs, len(self.reasoner.rulebase.rules), self.reasoner.andMeth, self.reasoner.orMeth, filename)
 		self.reasoner.rulebase.rules = self.reasoner.rulebase.rules + self.ruleGenerator.generatedRules

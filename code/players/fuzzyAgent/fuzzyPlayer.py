@@ -31,7 +31,7 @@ class algorithm:
 			moveScore1 = list(newboard.evaluateBoard("X")[:-2])
 			moveScore2 = list(newboard.evaluateBoard("O")[:-2])
 			
-			
+			print [self.turn] + moveScore1
 
 			owngain = self.one.reasoner.inference([self.turn] + moveScore1)
 			oppgain = self.one.reasoner.inference([self.turn] + moveScore2)

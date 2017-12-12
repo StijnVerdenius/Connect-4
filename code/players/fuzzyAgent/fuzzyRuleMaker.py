@@ -97,7 +97,22 @@ class fuzzyRules:
 		return basic.Rule(self.counter, ant, op, cons[0], self.andMeth, self.orMeth), np.product(membershipsFactors)
 
 	def cleanUpRules(self):
-		pass
+
+		scoreDict = {}
+
+		for i, tup in self.generatedRules:
+			antecedent = str(tup[0].antecedent)
+			if (not antecedent in scoreDict):
+				self.generatedRules[i] = tup[0]
+				scoreDict[antecedent] = tup[1]
+			else:
+				if (tup[1] > scoreDict[antecedent]):
+					self.generatedRules[i] = tup[0]
+					scoreDict[antecedent] = tup[1]
+				else:
+					continue
+
+
 
 
 	def manualDatasetCreator(self):
