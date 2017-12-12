@@ -47,3 +47,31 @@ Set up 4opeenrij.py and other players from a hobby project of this summer
 
 - created first fuzzy automatic rulemaker
 - cleaned up filesystem
+
+#### 23/11/2017 - 09/12/2017
+
+- groupmate Harm dropped out.
+- groupmate Kaj got sick, work slowed down and stopped in awaiting for kaj
+
+#### 09/12/2017
+
+- Kaj dropped out too. Consequently lost 2 weeks worth of working time
+
+#### 10/12/2017
+
+- Resumed work alone
+- Implemented wang/mendel rule learning
+- Made the plan to also learn the memberships
+
+#### 11/12/2017
+
+- created a datasetgenerator
+- created a judge for dataentries based on the already existing brute force (3 turns) player
+
+#### 12/12/2017
+
+- spoke with TA about what are wise and realistic goals
+- evaluated how to implement goals in already existing structure
+- probably have to abandon the fis file converter now that i am gonna learn everything from data
+- [insert stuff im gonna do today]
+- made milestone2 report
