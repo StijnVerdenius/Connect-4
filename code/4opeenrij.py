@@ -3,11 +3,11 @@ import numpy as np
 
 
 import players.MonteCarlos.monteCarlos as monteCarlos
-import players.fuzzyAgent.fuzzyPlayer as fuzzyPlayer
+# import players.fuzzyAgent.fuzzyPlayer as fuzzyPlayer
 import players.Neural.nnPlayer as nnPlayer
 import players.BruteForce.dumbplayer as dumbplayer
 import boardDef
-
+fuzzyPlayer = 0
 
 FUZZ_ARGUMENTS = [3]
 M_CARLOS_ARGUMENTS = [0.8]
@@ -18,7 +18,7 @@ def interface():
 	# initialization
 	monte = monteCarlos.algorithm()
 	nn = nnPlayer.algorithm(buildDataset = False)
-	fuzz = fuzzyPlayer.algorithm()
+	# fuzz = fuzzyPlayer.algorithm()
 	brute = dumbplayer.algorithm()
 	started = False
 	chosenOpponent1 = False

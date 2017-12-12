@@ -23,6 +23,9 @@ class dataSet(object):
 		self.dataSet = self.loadObject("dataset")
 		self.shape = self.dataSet.shape
 
+	def get(self):
+		return self.dataSet
+
 	def tolist(self):
 		return self.dataSet.tolist()
 
@@ -65,8 +68,19 @@ class dataSet(object):
 
 	def distance(self, one, two):
 		""" does the euclidian distance between two vectors"""
+
+		a =  np.linalg.norm(np.array(one) - np.array(two))
+
+		if (a == 0):
+			if (not (one == two).all()):
+				print np.array(one), np.array(two)
+				print np.array(one) - np.array(two)
+				print one-two
+			else:
+				print "false alarm"
+			return 1.0
 	
-		return np.linalg.norm(np.array(one) - np.array(two))
+		return a
 
 	def c_means(self, xpts, ypts, n_centers, max_iter = 30, m = 1.5, threshold = 1):
 		"""Fuzzy C-Means clustering algorithm."""
@@ -84,19 +98,30 @@ class dataSet(object):
 		u = np.zeros((len(dataSet),len(centroids)))
 
 		while(max_iter > 1):
-	#		 print ("iteration : " + str(max_iter))
+			print ("iteration : " + str(max_iter))
 
 			oldCents = deepcopy(centroids)
 
 			# calculate the m factor
 			mFactor = (2/(m-1))
+
+
+
 			
 			# recaculate membership degrees
 			for j in range(0, len(centroids)):
 				for i in range(0, len(dataSet)):
 					temp = 0.0
 					for k in range(0,len(centroids)):
-						temp += ((self.distance(dataSet[i], centroids[j]))/ (self.distance(dataSet[i], centroids[k]))) ** mFactor 
+						temp2 = self.distance(dataSet[i], centroids[k])
+						temp3 = self.distance(dataSet[i], centroids[j])
+						if (temp2 == 0):
+							temp2 = 1.0
+							# print "temp2 fout", dataSet[i], dataSet[k]
+						if (temp3 == 0):
+							temp3 = 1.0
+							# print "temp3 fout", dataSet[i], dataSet[j]
+						temp += ((temp3)/ (temp2)) ** mFactor
 					u[i][j] = 1 / temp 
 			
 			# do matrix multiplication from u and dataset
@@ -119,8 +144,10 @@ class dataSet(object):
 		return np.array(centroids), np.array(u).T
 
 	def findMembershipFunctions(self, function, xpts, ypts, n_centers):
-		_, u = self.c_means(xpts, ypts, n_centers)
-		args, _ = curve_fit(function, ypts, u)
+		# _, u = self.c_means(xpts, ypts, n_centers)
+		centr, u, _, _, _, _, _ = fuzz.cluster.cmeans(
+	    np.vstack((xpts,ypts)), n_centers, 2.0 , 0.05, 50, init=None)
+		args = [curve_fit(function, xpts, ui, p0=[centr[i][0]]+[1.0])[0] for i, ui in enumerate(u) ]
 		return args
 
 	def createDataset(self, judge, size):
@@ -171,8 +198,70 @@ class dataSet(object):
 
 
 
+	def plot_clusters(self, x, y, cntr, u):
+		"""Plot clusters by assigning datapoints to the cluster
+		for which the datapoint has the highest membership degree."""
+		colors = ['b', 'r', 'g', 'c', "m", "y", "k", "w"]
+
+		# Plot assigned clusters, for each data point in training set
+		cluster_membership = np.argmax(u, axis=0)
+		for j in range(len(cntr)):
+			plt.scatter(x[cluster_membership == j],
+				y[cluster_membership == j], color=colors[j], s=5)
+
+			# Mark the center of each fuzzy cluster
+			for pt in cntr:
+				plt.plot(pt[0], pt[1], 'rs')
 
 
+
+
+
+a = dataSet("brute", 125, new=False)
+
+import matplotlib.pyplot as plt
+import skfuzzy as fuzz
+
+titles = ["blocks","potentials","winin1","winin2","deltablocks","deltapotentials","deltawinin1","deltawinin2","progression", "score"]
+centerlist = [3,3,4,6,3,3,4,6,4,8]
+
+
+for i, collumn in enumerate(a.get().T):
+	# plt.subplot(4,4, i+1)
+	if (i in [0,1,2,3,4,5,6,7,8,9]): #[2,6]):
+
+		for b in [2.5*4]:
+			plt.title(titles[i] +"\t"+ str(b*0.25+0.1))
+			x = collumn
+			y = a.get().T[-1]
+
+
+
+			# cntr, u = a.c_means(x,y,centerlist[i])
+
+
+
+
+
+			# cntr, u, _, _, _, _, _ = fuzz.cluster.cmeans(
+	  #   np.vstack((x,y)), centerlist[i], b*0.25+0.1 , 0.05, 50, init=None)
+
+			# func = fuzz.gaussmf
+			func= fuzz.gaussmf
+
+			fitted= a.findMembershipFunctions(func,x,y,centerlist[i])
+
+			for fit in fitted:
+				print fit
+				out = [func(xp,fit[0], fit[1]) for xp in x]
+				plt.scatter(x.tolist(), out)
+
+			
+			# plt.scatter(collumn, a.get().T[-1])
+			# a.plot_clusters(x,y, cntr, u)
+			plt.show()
+
+# plt.show()
 
 
 

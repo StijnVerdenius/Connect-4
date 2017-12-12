@@ -4,7 +4,7 @@ from collections import defaultdict, Counter
 import sys
 import json
 from functools import wraps
-import dataSetCreator
+# import dataSetCreator
 
 import fuzzyRuleMaker as ruleGenerator
 
@@ -17,16 +17,16 @@ Holds all the objects used in a fuzzy inference + the methods to convert a fisfi
 """
 
 class fuzzyTools(object):
-	def __init__(self, filename, useFisFile= True):
+	def __init__(self, filename, useFisFile= False):
 
 		# hold basic reasoner information
 		self.reasoner = None 
 		self.inputs = None
 		self.outputs = None
 
-		self.data = dataSetCreator.dataSet("brute", 100, new=True)
+		# self.data = dataSetCreator.dataSet("brute", 100, new=True)
 
-		self.createInputs(filename)
+		# self.createInputs(filename)
 
 		# create a fuzzy logic system from a fis file
 		if (useFisFile):
@@ -36,8 +36,8 @@ class fuzzyTools(object):
 
 
 	
-		self.ruleGenerator = ruleGenerator.fuzzyRules(self.data.tolist(), self.inputs, self.outputs, len(self.reasoner.rulebase.rules), self.reasoner.andMeth, self.reasoner.orMeth, filename)
-		self.reasoner.rulebase.rules = self.reasoner.rulebase.rules + self.ruleGenerator.generatedRules
+		# self.ruleGenerator = ruleGenerator.fuzzyRules(self.data.tolist(), self.inputs, self.outputs, len(self.reasoner.rulebase.rules), self.reasoner.andMeth, self.reasoner.orMeth, filename)
+		# self.reasoner.rulebase.rules = self.reasoner.rulebase.rules + self.ruleGenerator.generatedRules
 
 		
 	def createInputs(self, fileOut, fileIn = "parameters.txt"):

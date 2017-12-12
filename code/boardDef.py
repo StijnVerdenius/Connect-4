@@ -9,6 +9,7 @@ class board:
 		self.length = n
 		self.height = m
 		self.board = []
+		self.movesMade = 0
 		for _ in range(m):
 			newline = []
 			for _ in range(n):
@@ -35,6 +36,7 @@ class board:
 			if (self.board[row][position-1] == " "):
 				
 				self.board[row][position-1] = symbol
+				self.movesMade += 1
 				return True
 		return False
 

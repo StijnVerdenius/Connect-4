@@ -21,23 +21,25 @@ class bruteForceJudge:
 		else:
 			e,f,g,h = (a-dataEntry[0]), (b-dataEntry[1]), (c-dataEntry[2]), (d-dataEntry[3])
 
+		i = board.movesMade
 
+		newEntry = [a,b,c,d,e,f,g,h,i]
 
-		newEntry = [a,b,c,d,e,f,g,h]
+		
+		score = self.determineScore(newEntry)
 
 		if (board.checkVictory(symbol)):
-			score = 10000
+			score += 200
 		elif(board.checkVictory(opponent)):
-			score= -10000
-		else:
-			score = self.determineScore(newEntry)
+			score += -200
+		# else:
 
 		
 
 		return newEntry, score
 
 
-	def determineScore(self, entry, scoreFunctie = [3,2,64,8,1,0.5,8,2]):
+	def determineScore(self, entry, scoreFunctie = [3,2,64,8,1,0.5,8,2,-10]):
 
 
 		score = 0

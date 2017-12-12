@@ -4,8 +4,9 @@
 
 ### distribution of tasks
 
-Kaj: todo
-Stijn: todo
+Harm: nothing
+Kaj: get better
+Stijn: everything
 
 ### planning/schedule
 
@@ -73,5 +74,5 @@ Set up 4opeenrij.py and other players from a hobby project of this summer
 - spoke with TA about what are wise and realistic goals
 - evaluated how to implement goals in already existing structure
 - probably have to abandon the fis file converter now that i am gonna learn everything from data
-- [insert stuff im gonna do today]
+- made data representation to start learning memberships
 - made milestone2 report
