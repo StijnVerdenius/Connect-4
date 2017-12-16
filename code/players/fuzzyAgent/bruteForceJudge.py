@@ -37,7 +37,6 @@ class bruteForceJudge:
 			score += 200
 		elif(board.checkVictory(opponent)):
 			score += -200
-		# else:
 
 		
 

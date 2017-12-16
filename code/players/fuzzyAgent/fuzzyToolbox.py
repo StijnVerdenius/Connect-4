@@ -17,7 +17,7 @@ Holds all the objects used in a fuzzy inference + the methods to convert a fisfi
 """
 
 class fuzzyTools(object):
-	def __init__(self, filename, useFisFile= True, reBuild = False, regenerateRules= False, regenerateData = False):
+	def __init__(self, filename, useFisFile= True, reBuild = False, regenerateRules= True, regenerateData = False):
 
 		# hold basic reasoner information
 		self.reasoner = None 

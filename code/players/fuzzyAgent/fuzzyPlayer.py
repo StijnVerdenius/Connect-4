@@ -26,12 +26,16 @@ class algorithm:
 		elif(anyV == "O"):
 			return -1, 11
 
-		moveScoreNowX = list(board.countWinIn(2,"X")[:-1]) + [board.countPotentials("X")]
-		moveScoreNowO = list(board.countWinIn(2,"O")[:-1]) + [board.countPotentials("O")]
+		moveScoreNowX = [board.countPotentials("X")] + list(board.countWinIn(2,"X")[:-1])  
+		moveScoreNowO = [board.countPotentials("O")] + list(board.countWinIn(2,"O")[:-1]) 
 		dataentryBuildupX = dataentryBuildupX + moveScoreNowX
 		dataentryBuildupO = dataentryBuildupO + moveScoreNowO
 
 		if (len(dataentryBuildupX) == (len(self.one.reasoner.inputs)-1)):
+
+			# print dataentryBuildupX+[board.movesMade]
+			# print dataentryBuildupO+[board.movesMade]
+
 			X = self.one.reasoner.inference(dataentryBuildupX+[board.movesMade])
 			O = self.one.reasoner.inference(dataentryBuildupO+[board.movesMade])
 			return X,O
@@ -59,8 +63,8 @@ class algorithm:
 
 		thres = arguments[0]
 
-		moveScoreNowX = list(board.countWinIn(2,"X")[:-1]) + [board.countPotentials("X")]
-		moveScoreNowO = list(board.countWinIn(2,"O")[:-1]) + [board.countPotentials("O")]
+		moveScoreNowX = [board.countPotentials("X")] + list(board.countWinIn(2,"X")[:-1])  
+		moveScoreNowO = [board.countPotentials("O")] + list(board.countWinIn(2,"O")[:-1]) 
 
 
 
@@ -69,7 +73,6 @@ class algorithm:
 			newboard.doMove(move, symbol)
 
 			X,O = self.recursion(newboard, moveScoreNowX, moveScoreNowO)
-
 
 			if (symbol == "X"):
 				if ( X > O+thres and X > bestMove[1]):
@@ -81,6 +84,8 @@ class algorithm:
 
 
 			print "move : " , move, "score { X:", X, " O:", O, "}"
+		
+
 		if (bestMove[0] == -1):
 			return (choice(board.possibleMoves()), 0)
 		else:

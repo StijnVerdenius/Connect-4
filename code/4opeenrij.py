@@ -8,7 +8,7 @@ import players.Neural.nnPlayer as nnPlayer
 import players.BruteForce.dumbplayer as dumbplayer
 import boardDef
 
-FUZZ_ARGUMENTS = [0.15]
+FUZZ_ARGUMENTS = [-0.1]
 M_CARLOS_ARGUMENTS = [0.8]
 EMPTY_ARGUMENTS = [None]
 
@@ -164,9 +164,34 @@ def afterMath(board):
 	board.checkVictory("X", printing = True)
 	return True
 
+def breakpoint():
+	2 + "this causes a failure: aka breakpoint"
+
+
 
 interface()
 
+# fuzz = fuzzyPlayer.algorithm()
+
+# # print fuzz.one.reasoner.inputs
+
+# # for x in range(6,7):
+# # 	for iinp in fuzz.one.reasoner.inputs:
+# # 		print iinp.name, iinp.calculate_memberships(6)
+
+# # for center, sigma in [[0.40900298369, 15.57906409119],
+# # [33.8130835241, 5.82874647569],
+# # [21.0191560734, 3.75449046552],
+# # [64.0, 15.18721932131]]:
+
+# # 	print np.exp(-((6 - center) ** 2.) / float(sigma) ** 2.)
+
+
+# one  = fuzz.one.reasoner.inference([10, 0, 1, 10, 0, 1, 10, 0, 1, 6])
+# # 		# if (np.isnan(one)):
+# # 		# 	print x
+
+# print one
 
 ###### time measurement tool
 
