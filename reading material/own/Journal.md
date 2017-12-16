@@ -76,3 +76,5 @@ Set up 4opeenrij.py and other players from a hobby project of this summer
 - probably have to abandon the fis file converter now that i am gonna learn everything from data
 - made data representation to start learning memberships
 - made milestone2 report
+
+#### 13/12/2017

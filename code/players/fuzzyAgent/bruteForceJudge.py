@@ -9,21 +9,26 @@ class bruteForceJudge:
 
 
 
-		a = board.countBlocks(symbol, opponent)
-		b = board.countPotentials(symbol)
-		c,d = board.countWinIn(2, symbol)[:-1]
+		
+		a = board.countPotentials(symbol)
+		b,c = board.countWinIn(2, symbol)[:-1]
 
+		# delta one
+		d,e,f = 0,0,0
 
-		e,f,g,h = 0,0,0,0
+		# delta two
+		g,h,i = 0,0,0
 
 		if(dataEntry==0):
-			e,f,g,h = a,b,c,d
+			d,e,f = a,b,c
+			g,h,i = a,b,c
 		else:
-			e,f,g,h = (a-dataEntry[0]), (b-dataEntry[1]), (c-dataEntry[2]), (d-dataEntry[3])
+			d,e,f = (a-dataEntry[0]), (b-dataEntry[1]), (c-dataEntry[2])
+			g,h,i = (a-dataEntry[3]), (b-dataEntry[4]), (c-dataEntry[5])
 
-		i = board.movesMade
+		j = board.movesMade
 
-		newEntry = [a,b,c,d,e,f,g,h,i]
+		newEntry = [a,b,c,d,e,f,g,h,i,j]
 
 		
 		score = self.determineScore(newEntry)
@@ -39,7 +44,7 @@ class bruteForceJudge:
 		return newEntry, score
 
 
-	def determineScore(self, entry, scoreFunctie = [3,2,64,8,1,0.5,8,2,-10]):
+	def determineScore(self, entry, scoreFunctie = [2,64,8,1,16,4,0.25,5,1,-20]):
 
 
 		score = 0

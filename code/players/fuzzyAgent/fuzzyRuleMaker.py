@@ -94,39 +94,41 @@ class fuzzyRules:
 			membershipsFactors.append(maxInMemb[0])
 
 		self.counter += 1
+
+		if (np.product(membershipsFactors) > 1.0):
+			print membershipsFactors, np.product(membershipsFactors)
+
+
 		return basic.Rule(self.counter, ant, op, cons[0], self.andMeth, self.orMeth), np.product(membershipsFactors)
 
 	def cleanUpRules(self):
 
 		scoreDict = {}
 
-		for i, tup in self.generatedRules:
+		newRules = {}
+
+		
+
+		for i, tup in enumerate(self.generatedRules):
+
 			antecedent = str(tup[0].antecedent)
 			if (not antecedent in scoreDict):
-				self.generatedRules[i] = tup[0]
+				newRules[antecedent] = tup[0]
 				scoreDict[antecedent] = tup[1]
 			else:
 				if (tup[1] > scoreDict[antecedent]):
-					self.generatedRules[i] = tup[0]
+					newRules[antecedent] = tup[0]
 					scoreDict[antecedent] = tup[1]
 				else:
 					continue
 
+		self.generatedRules = []
+		for key in newRules:
+			self.generatedRules.append(newRules[key])
 
+		return
 
-
-	def manualDatasetCreator(self):
-		amount = int(raw_input("number of datapoints"))
-		dataset = []
-		for x in range(amount):
-			dataEntry = []
 			
-
-
-
-
-	def automaticDatasetCreator(self):
-		pass
 
 def breakpoint():
 	2 + "this causes a failure: aka breakpoint"

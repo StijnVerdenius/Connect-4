@@ -4,6 +4,8 @@ from copy import deepcopy
 from random import choice
 import bruteForceJudge
 from scipy.optimize import curve_fit
+import skfuzzy as fuzz
+from sklearn import preprocessing
 
 import pickle
 
@@ -15,6 +17,10 @@ import boardDef
 class dataSet(object):
 	
 	def __init__(self, judge, size, new=False):
+		print "setting up database.."
+
+		self.titles = ["potentials","winin1","winin2","deltapotentials","deltawinin1","deltawinin2","doubledeltapotentials","doubledeltawinin1","doubledeltawinin2","progression", "score"]
+		self.centerlist = [3,4,6,3,4,6,3,4,6,4,8]
 
 		self.size = size
 		self.judge = self.importJudge(judge)
@@ -22,6 +28,7 @@ class dataSet(object):
 			self.createDataset(self.judge, size)
 		self.dataSet = self.loadObject("dataset")
 		self.shape = self.dataSet.shape
+		self.normalizeY()
 
 	def get(self):
 		return self.dataSet
@@ -153,7 +160,8 @@ class dataSet(object):
 	def createDataset(self, judge, size):
 		data = []
 
-		for x in range(size):
+		for i, x in enumerate(range(size)):
+			print i, "/", size
 			board = boardDef.board()
 			self.playGame(board, judge, data)
 
@@ -196,11 +204,15 @@ class dataSet(object):
 				print "couldnt find possibilities" 	
 				return scoreList
 
+	def __len__(self):
+		return len(self.dataSet)
+
 
 
 	def plot_clusters(self, x, y, cntr, u):
 		"""Plot clusters by assigning datapoints to the cluster
 		for which the datapoint has the highest membership degree."""
+
 		colors = ['b', 'r', 'g', 'c', "m", "y", "k", "w"]
 
 		# Plot assigned clusters, for each data point in training set
@@ -214,54 +226,149 @@ class dataSet(object):
 				plt.plot(pt[0], pt[1], 'rs')
 
 
+	def return_gaussians(self):
 
-
-
-a = dataSet("brute", 125, new=False)
-
-import matplotlib.pyplot as plt
-import skfuzzy as fuzz
-
-titles = ["blocks","potentials","winin1","winin2","deltablocks","deltapotentials","deltawinin1","deltawinin2","progression", "score"]
-centerlist = [3,3,4,6,3,3,4,6,4,8]
-
-
-for i, collumn in enumerate(a.get().T):
-	# plt.subplot(4,4, i+1)
-	if (i in [0,1,2,3,4,5,6,7,8,9]): #[2,6]):
-
-		for b in [2.5*4]:
-			plt.title(titles[i] +"\t"+ str(b*0.25+0.1))
+		returndict = {}
+		
+		for i, collumn in enumerate(self.get().T[:-1]):
+			print "fitting data ", i, "/", len(self.get().T[:-1])
 			x = collumn
-			y = a.get().T[-1]
-
-
-
-			# cntr, u = a.c_means(x,y,centerlist[i])
-
-
-
-
-
-			# cntr, u, _, _, _, _, _ = fuzz.cluster.cmeans(
-	  #   np.vstack((x,y)), centerlist[i], b*0.25+0.1 , 0.05, 50, init=None)
-
-			# func = fuzz.gaussmf
+			y = self.get().T[-1]
+			y = self.projectingVector(x,y)
 			func= fuzz.gaussmf
+			fitted = self.findMembershipFunctions(func,x,y,self.centerlist[i])
+			returndict[self.titles[i]] = fitted
 
-			fitted= a.findMembershipFunctions(func,x,y,centerlist[i])
+		return returndict
 
-			for fit in fitted:
-				print fit
-				out = [func(xp,fit[0], fit[1]) for xp in x]
-				plt.scatter(x.tolist(), out)
+	def projectingVector(self, x, y):
+		xdict = {}
+
+
+		for ii, xi in enumerate(x):
+			if not xi in xdict:
+				xdict[xi] = []
+			xdict[xi].append(y[ii])
+
+		yReal = []
+		for xi in x:
+			yReal.append(sum(xdict[xi])/len(xdict[xi]))
 
 			
-			# plt.scatter(collumn, a.get().T[-1])
-			# a.plot_clusters(x,y, cntr, u)
-			plt.show()
+		return np.array(yReal)
 
-# plt.show()
+	def normalizeY(self):
+
+		yvector = self.get().T[-1]
+
+		min_max_scaler = preprocessing.MinMaxScaler()
+		yvector = min_max_scaler.fit_transform(yvector)
+
+		for i, _ in enumerate(yvector):
+			yvector[i] = yvector[i]*12-1
+		
+
+		
+
+		self.get().T[-1] = yvector
+
+	def findMinMaxOfFeatures(self):
+		dicti = {}
+		for i, column in enumerate(self.get().T):
+			title = self.titles[i]
+			maxi = int(max(column))
+			mini = int(min(column))
+			dicti[title] = tuple([mini,maxi])
+		return dicti
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+a = dataSet("brute", 500, new=False)
+
+# for x in a.findMinMaxOfFeatures():
+# 	print x,  a.findMinMaxOfFeatures()[x]
+# # print a.return_gaussians()
+
+# # for a in a.get().T:
+# # 	print min(a), max(a)
+
+
+# # print len(a)
+
+# import matplotlib.pyplot as plt
+# import skfuzzy as fuzz
+
+# titles = ["potentials","winin1","winin2","deltapotentials","deltawinin1","deltawinin2","doubledeltapotentials","doubledeltawinin1","doubledeltawinin2","progression", "score"]
+# centerlist = [3,4,6,3,4,6,3,4,6,4,8]
+
+
+# for i, collumn in enumerate(a.get().T):
+# 	# plt.subplot(4,4, i+1)
+# 	if (True): #[2,6]):
+
+# 		for b in [2.5*4]:
+# 			plt.title(titles[i] +"\t"+ str(b*0.25+0.1))
+# 			x = collumn
+# 			y = a.get().T[-1]
+
+# 			print titles[i]
+
+
+# 			# print len(a.get().T)
+
+
+# 			# cntr, u = a.c_means(x,y,centerlist[i])
+
+# 			xdict = {}
+
+
+# 			for ii, xi in enumerate(x):
+# 				if not xi in xdict:
+# 					xdict[xi] = []
+# 				xdict[xi].append(y[ii])
+
+# 			yReal = []
+# 			for xi in x:
+# 				yReal.append(sum(xdict[xi])/len(xdict[xi]))
+
+				
+# 			yReal = np.array(yReal)
+
+
+
+# 			cntr, u, _, _, _, _, _ = fuzz.cluster.cmeans(
+# 	  		  np.vstack((x,yReal)), centerlist[i], b*0.25+0.1 , 0.05, 50, init=None)
+
+# 			# func = fuzz.gaussmf
+# 			func= fuzz.gaussmf
+
+# 			fitted= a.findMembershipFunctions(func,x,yReal,centerlist[i])
+
+# 			for fit in fitted:
+# 				print fit
+# 				out = [func(xp,fit[0], fit[1]) for xp in x]
+# 				plt.scatter(x.tolist(), out)
+
+			
+# 			# plt.scatter(collumn, a.get().T[-1])
+# 			# a.plot_clusters(x,y, cntr, u)
+# 			plt.show()
+
+# # # plt.show()
 
 
 

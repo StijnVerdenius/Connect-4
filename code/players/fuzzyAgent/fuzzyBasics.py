@@ -86,7 +86,7 @@ class GaussianMF:
             return 1.0
         else:
             try:
-                return math.exp(-0.5*((x-self.center)/self.sigma))
+                return np.exp(-((x - self.center) ** 2.) / float(self.sigma) ** 2.)
             except:
                 return 0.0
 

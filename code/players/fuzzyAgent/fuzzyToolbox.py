@@ -4,7 +4,7 @@ from collections import defaultdict, Counter
 import sys
 import json
 from functools import wraps
-# import dataSetCreator
+import dataSetCreator
 
 import fuzzyRuleMaker as ruleGenerator
 
@@ -17,16 +17,23 @@ Holds all the objects used in a fuzzy inference + the methods to convert a fisfi
 """
 
 class fuzzyTools(object):
-	def __init__(self, filename, useFisFile= False):
+	def __init__(self, filename, useFisFile= True, reBuild = False, regenerateRules= False, regenerateData = False):
 
 		# hold basic reasoner information
 		self.reasoner = None 
-		self.inputs = None
+		self.inputs = []
 		self.outputs = None
 
-		# self.data = dataSetCreator.dataSet("brute", 100, new=True)
+		if (regenerateData):
+			reBuild = True
 
-		# self.createInputs(filename)
+		self.data = dataSetCreator.dataSet("brute", 500, new=regenerateData)
+
+		if (reBuild):
+
+			gaussParams = self.data.return_gaussians()
+
+			self.createInputs(filename, gaussParams, self.data.findMinMaxOfFeatures())
 
 		# create a fuzzy logic system from a fis file
 		if (useFisFile):
@@ -35,16 +42,40 @@ class fuzzyTools(object):
 			f.close()
 
 
-	
-		# self.ruleGenerator = ruleGenerator.fuzzyRules(self.data.tolist(), self.inputs, self.outputs, len(self.reasoner.rulebase.rules), self.reasoner.andMeth, self.reasoner.orMeth, filename)
-		# self.reasoner.rulebase.rules = self.reasoner.rulebase.rules + self.ruleGenerator.generatedRules
+		if(regenerateRules) :
+			self.ruleGenerator = ruleGenerator.fuzzyRules(self.data.tolist(), self.inputs, self.outputs, len(self.reasoner.rulebase.rules), self.reasoner.andMeth, self.reasoner.orMeth, filename)
+			self.reasoner.rulebase.rules = self.reasoner.rulebase.rules + self.ruleGenerator.generatedRules
 
+	def clearfile(self, filename):
+		f1 = open(filename, "r")
+		stringbuilder = ""
+		for line in f1:
+			if ("[Input" in line):
+				break
+			else:
+				stringbuilder = stringbuilder + line
+		stringbuilder = stringbuilder + "\n\n"
+		f1.close()
+		f2 = open (filename, "w")
+		f2.write(stringbuilder)
+		f2.close()
+		return
 		
-	def createInputs(self, fileOut, fileIn = "parameters.txt"):
+	def createInputs(self, fileOut, gaussParams, ranges, fileIn = "parameters.txt"):
+		self.clearfile(fileOut)
 		f1 = open(fileIn, "r")
-		f2 = open(fileIn, "a")
-		for line in fileIn:
-			args
+		f2 = open(fileOut, "a")
+		
+
+
+		for j, key in enumerate(gaussParams):
+			f2.write("[Input"+str(j+1)+"]\nName='"+key+"'\nRange=["+str(ranges[key][0])+" "+str(ranges[key][1])+"]"       +"\nNumMFs="+str(len(gaussParams[key]))+"\n")
+			for i,parameters in enumerate(gaussParams[key]):
+
+				f2.write("MF"+str(i+1)+"='"+str(i+1)+"|"+str(len(gaussParams[key]))+"':'gaussmf',["+str(parameters[0])+" "+str(parameters[1])+"]\n")
+			f2.write("\n\n")
+		f2.write("[Rules]\n")
+
 
 
 	def memoize(func):
@@ -68,7 +99,10 @@ class fuzzyTools(object):
 		    return o.__dict__
 
 		print "\n\n"
-		print(json.dumps(self, default=jdefault))
+		x = json.dumps(self, default=jdefault)
+		f = open("reasonerJSONforVisualization.json", "w")
+		f.write(x)
+		print(x)
 		print "\n\n paste this in: http://jsonviewer.stack.hu/"
 
 
@@ -264,11 +298,14 @@ def breakpoint():
 def test():
 	filename = "LeafNodeSystem.fis"
 	tools = fuzzyTools(filename)
+	tools.data = None
+	tools.ruleGenerator = None
 	tools.visualize()
 
-	datapoint = [50,0,0]
 
-	print tools.reasoner.inference(datapoint)
+	# datapoint = [50,0,0]
+
+	# print tools.reasoner.inference(datapoint)
 
 
 test()
