@@ -9,8 +9,8 @@ from sklearn import preprocessing
 
 import pickle
 
-import sys
-sys.path.append("../..")
+# import sys
+# sys.path.append("../..")
 
 import boardDef
 
@@ -26,7 +26,7 @@ class dataSet(object):
 		self.judge = self.importJudge(judge)
 		if (new):
 			self.createDataset(self.judge, size)
-		self.dataSet = self.loadObject("dataset")
+		self.dataSet = self.loadObject("players/fuzzyAgent/dataset")
 		self.shape = self.dataSet.shape
 		self.normalizeY()
 
@@ -297,7 +297,7 @@ class dataSet(object):
 
 
 
-a = dataSet("brute", 500, new=False)
+# a = dataSet("brute", 500, new=False)
 
 # for x in a.findMinMaxOfFeatures():
 # 	print x,  a.findMinMaxOfFeatures()[x]

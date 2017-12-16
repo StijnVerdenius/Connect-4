@@ -10,11 +10,18 @@ class board:
 		self.height = m
 		self.board = []
 		self.movesMade = 0
+		self.onMove = "O"
 		for _ in range(m):
 			newline = []
 			for _ in range(n):
 				newline.append(" ")
 			self.board.append(newline)
+
+	def toggleMove(self):
+		if (self.onMove == "O"):
+			self.onMove = "X"
+		if (self.onMove == "X"):
+			self.onMove = "O"
 
 	def possibleMoves(self):
 		""" returns possible moves on a board """
@@ -37,6 +44,7 @@ class board:
 				
 				self.board[row][position-1] = symbol
 				self.movesMade += 1
+				self.toggleMove()
 				return True
 		return False
 
@@ -61,6 +69,16 @@ class board:
 		if (printing):
 			print "WINNER : ", symbol
 		return True
+
+	def anyVictory(self):
+		a = self.checkVictory("X")
+		b = self.checkVictory("O")
+		if (a):
+			return "X"
+		elif(b):
+			return "O"
+		else:
+			return False
 
 	def countRows(self, condition):
 		""" counts all occurences in rows for a certain pattern/condition """

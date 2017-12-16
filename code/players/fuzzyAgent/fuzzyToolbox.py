@@ -308,4 +308,4 @@ def test():
 	# print tools.reasoner.inference(datapoint)
 
 
-test()
+# test()

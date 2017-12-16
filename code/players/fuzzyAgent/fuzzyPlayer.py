@@ -16,8 +16,39 @@ Holds the basic playing mechanism of the fuzzy player
 class algorithm:
 	def __init__(self):
 		self.one = fuzz.fuzzySystem1()
-		self.turn = 0
-		self.two = fuzz.fuzzySystem2()
+
+
+	def recursion(self, board, dataentryBuildupX, dataentryBuildupO):
+		anyV = board.anyVictory()
+
+		if(anyV == "X"):
+			return 11,-1
+		elif(anyV == "O"):
+			return -1, 11
+
+		moveScoreNowX = list(board.countWinIn(2,"X")[:-1]) + [board.countPotentials("X")]
+		moveScoreNowO = list(board.countWinIn(2,"O")[:-1]) + [board.countPotentials("O")]
+		dataentryBuildupX = dataentryBuildupX + moveScoreNowX
+		dataentryBuildupO = dataentryBuildupO + moveScoreNowO
+
+		if (len(dataentryBuildupX) == (len(self.one.reasoner.inputs)-1)):
+			X = self.one.reasoner.inference(dataentryBuildupX+[board.movesMade])
+			O = self.one.reasoner.inference(dataentryBuildupO+[board.movesMade])
+			return X,O
+
+		else:
+			X, O = 0,0
+			for move in board.possibleMoves():
+				newboard = deepcopy(board)
+				newboard.doMove(move, newboard.onMove)
+
+				X1, O1 = self.recursion(newboard, dataentryBuildupX, dataentryBuildupO)
+				X += X1
+				O += O1
+			return ((X+0.0)/len(board.possibleMoves())), ((O+0.0)/len(board.possibleMoves()))
+
+
+
 
 	def decideMove(self, board, symbol, arguments):
 		""" decides best move """
@@ -25,39 +56,37 @@ class algorithm:
 		bestMove = (-1,-2)
 		totalscoreOpp = 0
 		totalScoreSelf = 0
+
+		thres = arguments[0]
+
+		moveScoreNowX = list(board.countWinIn(2,"X")[:-1]) + [board.countPotentials("X")]
+		moveScoreNowO = list(board.countWinIn(2,"O")[:-1]) + [board.countPotentials("O")]
+
+
+
 		for move in board.possibleMoves():
 			newboard = deepcopy(board)
 			newboard.doMove(move, symbol)
-			moveScore1 = list(newboard.evaluateBoard("X")[:-2])
-			moveScore2 = list(newboard.evaluateBoard("O")[:-2])
-			
-			print [self.turn] + moveScore1
 
-			owngain = self.one.reasoner.inference([self.turn] + moveScore1)
-			oppgain = self.one.reasoner.inference([self.turn] + moveScore2)
-
-			totalscoreOpp += owngain
-			totalScoreSelf += oppgain
-
-			moveScore = owngain-oppgain
-
-			if symbol == "O":
-				moveScore = -1*moveScore
-			if (moveScore > bestMove[1]):
-				bestMove = (move, moveScore)
+			X,O = self.recursion(newboard, moveScoreNowX, moveScoreNowO)
 
 
-			
-			print "move : " , move, "score : ", str(moveScore)[:5]
+			if (symbol == "X"):
+				if ( X > O+thres and X > bestMove[1]):
+					bestMove = (move, X)
+			elif (symbol == "O"):
+				if ( O > X+thres and O > bestMove[1]):
+					bestMove = (move, O)
 
-		if symbol == "O":
-			print "evaluation state : ", self.two.reasoner.inference([totalscoreOpp, totalScoreSelf])
-		else: 
-			print "evaluation state : ", self.two.reasoner.inference([totalscoreOpp, totalScoreSelf][::-1])
+
+
+			print "move : " , move, "score { X:", X, " O:", O, "}"
+		if (bestMove[0] == -1):
+			return (choice(board.possibleMoves()), 0)
+		else:
+			return bestMove
+
 		
-		self.turn += 1
-		return bestMove
-		return (board.possibleMoves()[0] , _)
 
 
 	def decideMovesInOrder(self, board, symbol, arguments):
