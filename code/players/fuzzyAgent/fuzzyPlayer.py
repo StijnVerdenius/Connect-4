@@ -17,7 +17,7 @@ class algorithm:
 
 
 	def __init__(self):
-		self.one = fuzz.fuzzySystem1()
+		self.one = fuzz.fuzzySystem2()
 
 
 	# def recursion(self, board, dataentryBuildupX, dataentryBuildupO, symbol):

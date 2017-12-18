@@ -3,6 +3,7 @@
 import boardDef
 import players.MonteCarlos.monteCarlos as monteCarlos
 import players.fuzzyAgent.fuzzyPlayer as fuzzyPlayer
+import players.BruteForce.dumbplayer as dumbplayer
 
 def pcMove(board, opponent, arguments, symbol):
 	""" doing a move for a ai player """
@@ -18,7 +19,8 @@ def pcMove(board, opponent, arguments, symbol):
 FUZZ_ARGUMENTS = [-0.1]
 M_CARLOS_ARGUMENTS = [0.8]
 monte = monteCarlos.algorithm()
-fuzz = fuzzyPlayer.algorithm()
+# fuzz = fuzzyPlayer.algorithm()
+fuzz = dumbplayer.algorithm()
 
 
 f  = open("score.csv", "a")
@@ -41,7 +43,7 @@ for x in range(int(minuten/5.5)):
 	stri = ""
 	board = boardDef.board()
 	while (  not board.checkVictory("O") and not board.checkVictory("X") and board.movesMade < 64 ):
-		print "current board in game "+ str(x)+"/"+str(int(minuten/7.5))+":"
+		print "current board in game "+ str(x)+"/"+str(int(minuten/5.5))+":"
 		board.toString()
 		print "move is on : "
 		if (krossOnMove):
