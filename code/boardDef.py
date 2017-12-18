@@ -171,7 +171,7 @@ class board:
 	def checkBoard(self, condition):
 		""" combine 3 check functions """
 
-		return (self.checkRows(condition)+ self.checkColumns(condition)+ self.checkDiag(condition))
+		return (self.checkRows(condition) or self.checkColumns(condition) or self.checkDiag(condition))
 
 	def evaluateBoard(self, symbol):
 		""" evaluates board on winning, near winning etc.. positions """

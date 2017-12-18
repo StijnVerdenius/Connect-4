@@ -74,7 +74,7 @@ class GaussianMF:
 	def __init__(self, name, center, sigma):
 		self.name = name
 		self.center = center
-		self.sigma = sigma*6+2
+		self.sigma = sigma*10+10
 		self.start = center-4*sigma
 		self.end = center+4*sigma
 
