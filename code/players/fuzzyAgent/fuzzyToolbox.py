@@ -296,7 +296,7 @@ def breakpoint():
 	2 + "this causes a failure: aka breakpoint"
 			
 def test():
-	filename = "LeafNodeSystem.fis"
+	filename = "fuzzyAgent2_3.fis"
 	tools = fuzzyTools(filename)
 	tools.data = None
 	tools.ruleGenerator = None

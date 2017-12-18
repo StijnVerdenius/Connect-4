@@ -125,7 +125,7 @@ class algorithm:
 
 		bestMove = (-1, -1000000000000)
 
-		moveList = []
+		moveList = [-100000000000]*8
 
 		for move in board.possibleMoves():
 
@@ -191,7 +191,7 @@ class algorithm:
 				print "nieuw", bestMove
 				bestMove = (move, moveScore)
 
-			moveList.append(moveScore)
+			moveList[move-1] = moveScore
 
 
 			print "move : " , move, "score { X:", X, " O:", O, "} ", moveScore

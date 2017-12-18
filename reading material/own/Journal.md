@@ -78,3 +78,41 @@ Set up 4opeenrij.py and other players from a hobby project of this summer
 - made milestone2 report
 
 #### 13/12/2017
+
+- working on datalearning
+
+#### 14/12/2017
+
+- working on datalearning
+
+#### 15/12/2017
+
+- Spoke to ta again: reccomended adding features and projecting data on one axis -> started implementing
+
+#### 16/12/2017
+
+- finished membership and rule learning
+- manual adjustments 
+- first working version -> way too late to still perfectionize it
+- gaussians seem not to work -> manually enlarged sigma's -> bugfix
+
+#### 17/12/2017
+
+- final tests agent
+- still not good enough
+- first paragraph paper
+
+#### 18/12/2017
+
+- started writing paper
+- finilized fuzzy agent -> not what i hoped for, but no time to improve anymore
+- letting fuzzy agent play its opponents
+
+#### 19/12/2017
+
+- finalize paper
+- make presentation
+
+#### 20/12/2017
+
+- presentation

@@ -10,29 +10,11 @@ Simply summarizes the two systems we have with default filenames for fis files
 class fuzzySystem1(fuzzyTools):
 	
 
-	def __init__(self, filename = "players/fuzzyAgent/LeafNodeSystem.fis"):
+	def __init__(self, filename = "players/fuzzyAgent/fuzzyAgent2_and_3.fis"):
 		fuzzyTools.__init__(self, filename)
 		
 	
-class fuzzySystem2(fuzzyTools):
-	
-
-	def __init__(self, filename = "players/fuzzyAgent/MiddleNodeSystem.fis"):
-		fuzzyTools.__init__(self, filename)
 
 
 
-######################
-# not used yet
-######################
 
-def saveObject(self, name, objectI):
-		with open(name+'.pkl', 'wb') as output:
-			pickle.dump(objectI, output, pickle.HIGHEST_PROTOCOL)
-		return True
-
-def loadObject(self, name):
-	with open(name+'.pkl', 'rb') as input:
-		return pickle.load(input)
-
-# print fuzzySystem1(filename = "MiddleNodeSystem.fis").reasoner.inference([67, 79])
