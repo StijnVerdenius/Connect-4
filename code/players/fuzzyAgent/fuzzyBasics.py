@@ -13,7 +13,7 @@ Holds all the basic fuzzy logic classes and methods
 
 TODO: 
 - make multiple outputs possible
-- create implicationmethod 
+- cashe function with pickle 
 
 """
 
@@ -74,6 +74,8 @@ class GaussianMF:
 	def __init__(self, name, center, sigma):
 		self.name = name
 		self.center = center
+
+        # manual fix
 		self.sigma = sigma*10+10
 		self.start = center-4*sigma
 		self.end = center+4*sigma
@@ -85,11 +87,8 @@ class GaussianMF:
 		if (x == self.center):
 			return 1.0
 		else:
-			# try:
-			# print np.exp(-((x - self.center) ** 2.) / float(self.sigma) ** 2.), self.center, self.sigma, x
 			return np.exp(-((x - self.center) ** 2.) / float(self.sigma) ** 2.)
-			# except:
-			# 	return 0.0
+
 
 class Variable:
 	"""General class for variables in an FLS."""

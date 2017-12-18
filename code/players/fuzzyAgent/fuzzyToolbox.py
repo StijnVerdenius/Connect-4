@@ -24,11 +24,15 @@ class fuzzyTools(object):
 		self.inputs = []
 		self.outputs = None
 
+		# if you want to regenerate data you have to rebuild everything
 		if (regenerateData):
 			reBuild = True
+			regenerateRules = True
 
+		# retrieve data
 		self.data = dataSetCreator.dataSet("brute", 500, new=regenerateData)
 
+		# if youre rebuilding, you are refitting the membership functions
 		if (reBuild):
 
 			gaussParams = self.data.return_gaussians()
@@ -41,12 +45,14 @@ class fuzzyTools(object):
 			self.parseFIS(f)
 			f.close()
 
-
+		# regenerate rules if you want
 		if(regenerateRules) :
 			self.ruleGenerator = ruleGenerator.fuzzyRules(self.data.tolist(), self.inputs, self.outputs, len(self.reasoner.rulebase.rules), self.reasoner.andMeth, self.reasoner.orMeth, filename)
 			self.reasoner.rulebase.rules = self.reasoner.rulebase.rules + self.ruleGenerator.generatedRules
 
 	def clearfile(self, filename):
+		""" clears fis file so it can be rebuild """
+
 		f1 = open(filename, "r")
 		stringbuilder = ""
 		for line in f1:
@@ -61,13 +67,11 @@ class fuzzyTools(object):
 		f2.close()
 		return
 		
-	def createInputs(self, fileOut, gaussParams, ranges, fileIn = "parameters.txt"):
+	def createInputs(self, fileOut, gaussParams, ranges):
+		""" writes input variables to a fis file from learned data membership functions """
+
 		self.clearfile(fileOut)
-		f1 = open(fileIn, "r")
 		f2 = open(fileOut, "a")
-		
-
-
 		for j, key in enumerate(gaussParams):
 			f2.write("[Input"+str(j+1)+"]\nName='"+key+"'\nRange=["+str(ranges[key][0])+" "+str(ranges[key][1])+"]"       +"\nNumMFs="+str(len(gaussParams[key]))+"\n")
 			for i,parameters in enumerate(gaussParams[key]):

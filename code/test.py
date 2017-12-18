@@ -1,9 +1,12 @@
 
 
+""" quick class to check compitition outcomes """
+
+
+
 import boardDef
 import players.MonteCarlos.monteCarlos as monteCarlos
 import players.fuzzyAgent.fuzzyPlayer as fuzzyPlayer
-import players.BruteForce.dumbplayer as dumbplayer
 
 def pcMove(board, opponent, arguments, symbol):
 	""" doing a move for a ai player """
@@ -20,7 +23,6 @@ FUZZ_ARGUMENTS = [-0.1]
 M_CARLOS_ARGUMENTS = [0.8]
 monte = monteCarlos.algorithm()
 fuzz = fuzzyPlayer.algorithm()
-# fuzz = dumbplayer.algorithm()
 
 
 f  = open("score.csv", "a")

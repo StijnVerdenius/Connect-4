@@ -10,9 +10,12 @@ from sklearn import preprocessing
 import pickle
 
 # import sys
-# sys.path.append("../..")
+# sys.path.append("../..") for debugging
 
 import boardDef
+
+
+""" Class to create dataset and do calculations with it """
 
 class dataSet(object):
 	
@@ -27,9 +30,11 @@ class dataSet(object):
 		if (new):
 			self.createDataset(self.judge, size)
 		self.dataSet = self.loadObject("players/fuzzyAgent/dataset")
-		# self.dataSet = self.loadObject("dataset")
+		# self.dataSet = self.loadObject("dataset") # for dubugging
 		self.shape = self.dataSet.shape
 		self.normalizeY()
+
+	### basic list functions\
 
 	def get(self):
 		return self.dataSet
@@ -41,6 +46,9 @@ class dataSet(object):
 		self.current = 0 
 		return self
 
+	def __len__(self):
+		return len(self.dataSet)
+
 	def next(self): 
 		if self.current >= len(self.dataSet):
 			raise StopIteration
@@ -48,7 +56,11 @@ class dataSet(object):
 			self.current += 1
 			return self.dataSet[self.current-1]
 
+	### dataset specific functions
+
 	def importJudge(self, judgeName):
+		""" imports a scoring algorithm for the dataset. this makes it easy to change scoring algorithm """
+
 		judge= None
 		if (judgeName == "brute"):
 			judge=bruteForceJudge.bruteForceJudge()
@@ -79,14 +91,14 @@ class dataSet(object):
 
 		a =  np.linalg.norm(np.array(one) - np.array(two))
 
-		if (a == 0):
-			if (not (one == two).all()):
-				print np.array(one), np.array(two)
-				print np.array(one) - np.array(two)
-				print one-two
-			else:
-				print "false alarm"
-			return 1.0
+		# if (a == 0):
+		# 	if (not (one == two).all()):
+		# 		print np.array(one), np.array(two)
+		# 		print np.array(one) - np.array(two)
+		# 		print one-two
+		# 	else:
+		# 		print "false alarm"
+		# 	return 1.0
 	
 		return a
 
@@ -152,13 +164,17 @@ class dataSet(object):
 		return np.array(centroids), np.array(u).T
 
 	def findMembershipFunctions(self, function, xpts, ypts, n_centers):
-		# _, u = self.c_means(xpts, ypts, n_centers)
+		""" finds all guassian parameters for all memberships functions for a single variable"""
+
+		# _, u = self.c_means(xpts, ypts, n_centers) # my own c_means, but it is too slow to work with
 		centr, u, _, _, _, _, _ = fuzz.cluster.cmeans(
 	    np.vstack((xpts,ypts)), n_centers, 2.0 , 0.05, 50, init=None)
 		args = [curve_fit(function, xpts, ui, p0=[centr[i][0]]+[1.0])[0] for i, ui in enumerate(u) ]
 		return args
 
 	def createDataset(self, judge, size):
+		""" creates a new dataset """
+
 		data = []
 
 		for i, x in enumerate(range(size)):
@@ -205,8 +221,7 @@ class dataSet(object):
 				print "couldnt find possibilities" 	
 				return scoreList
 
-	def __len__(self):
-		return len(self.dataSet)
+	
 
 
 
@@ -228,6 +243,7 @@ class dataSet(object):
 
 
 	def return_gaussians(self):
+		""" calculate all the guassian parameters, for all memberships, for all variables """
 
 		returndict = {}
 		
@@ -243,6 +259,8 @@ class dataSet(object):
 		return returndict
 
 	def projectingVector(self, x, y):
+		""" project a yvector onto an x vector by taking the average in the y direction """
+
 		xdict = {}
 
 
@@ -259,6 +277,7 @@ class dataSet(object):
 		return np.array(yReal)
 
 	def normalizeY(self):
+		""" Normalize the y vector in the dataset to -1 to 11 """
 
 		yvector = self.get().T[-1]
 
@@ -274,6 +293,8 @@ class dataSet(object):
 		self.get().T[-1] = yvector
 
 	def findMinMaxOfFeatures(self):
+		""" returns the range of all variables """
+
 		dicti = {}
 		for i, column in enumerate(self.get().T):
 			title = self.titles[i]
@@ -295,7 +316,7 @@ class dataSet(object):
 
 
 
-
+######################## following is debug meterial:
 
 
 # a = dataSet("brute", 500, new=False)

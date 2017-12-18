@@ -105,23 +105,6 @@ def interface():
 
 		
 		krossOnMove = not krossOnMove
-		# # print "O", board.evaluateBoard("O")
-		# import cProfile, pstats, StringIO
-		# pr = cProfile.Profile()
-		# pr.enable()
-
-		# for x in range(a):
-		# print "O",  board.evaluateBoard("O")
-		# print "X",  board.evaluateBoard("X")
-
-		# pr.disable()
-		# print a
-		# s = StringIO.StringIO()
-		# sortby = 'cumulative'
-		# ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
-		# ps.print_stats() 
-		# print s.getvalue()
-		# return
 		
 	
 	# show winner
@@ -171,27 +154,7 @@ def breakpoint():
 
 interface()
 
-# fuzz = fuzzyPlayer.algorithm()
 
-# # print fuzz.one.reasoner.inputs
-
-# # for x in range(6,7):
-# # 	for iinp in fuzz.one.reasoner.inputs:
-# # 		print iinp.name, iinp.calculate_memberships(6)
-
-# # for center, sigma in [[0.40900298369, 15.57906409119],
-# # [33.8130835241, 5.82874647569],
-# # [21.0191560734, 3.75449046552],
-# # [64.0, 15.18721932131]]:
-
-# # 	print np.exp(-((6 - center) ** 2.) / float(sigma) ** 2.)
-
-
-# one  = fuzz.one.reasoner.inference([10, 0, 1, 10, 0, 1, 10, 0, 1, 6])
-# # 		# if (np.isnan(one)):
-# # 		# 	print x
-
-# print one
 
 ###### time measurement tool
 

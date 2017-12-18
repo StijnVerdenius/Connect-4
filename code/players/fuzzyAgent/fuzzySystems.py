@@ -16,7 +16,7 @@ class fuzzySystem2(fuzzyTools):
 class fuzzySystem1(fuzzyTools):
 
 	def __init__(self, filename = "players/fuzzyAgent/fuzzyAgent1.fis"):
-			fuzzyTools.__init__(self, filename)
+		fuzzyTools.__init__(self, filename)
 	
 
 

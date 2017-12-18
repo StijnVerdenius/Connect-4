@@ -18,6 +18,8 @@ class board:
 			self.board.append(newline)
 
 	def toggleMove(self):
+		""" makes sure the onmove variable is set correctly """
+
 		if (self.onMove == "O"):
 			self.onMove = "X"
 		if (self.onMove == "X"):
@@ -71,6 +73,8 @@ class board:
 		return True
 
 	def anyVictory(self):
+		""" looks up if anything is victorious at all """
+
 		a = self.checkVictory("X")
 		b = self.checkVictory("O")
 		if (a):
