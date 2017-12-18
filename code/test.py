@@ -19,14 +19,14 @@ def pcMove(board, opponent, arguments, symbol):
 FUZZ_ARGUMENTS = [-0.1]
 M_CARLOS_ARGUMENTS = [0.8]
 monte = monteCarlos.algorithm()
-# fuzz = fuzzyPlayer.algorithm()
-fuzz = dumbplayer.algorithm()
+fuzz = fuzzyPlayer.algorithm()
+# fuzz = dumbplayer.algorithm()
 
 
 f  = open("score.csv", "a")
 
 minuten = 60
-monteeers = False
+monteeers = True
 
 argumentsX = FUZZ_ARGUMENTS
 argumentsO = M_CARLOS_ARGUMENTS

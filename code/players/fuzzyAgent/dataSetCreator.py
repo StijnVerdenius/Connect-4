@@ -27,6 +27,7 @@ class dataSet(object):
 		if (new):
 			self.createDataset(self.judge, size)
 		self.dataSet = self.loadObject("players/fuzzyAgent/dataset")
+		# self.dataSet = self.loadObject("dataset")
 		self.shape = self.dataSet.shape
 		self.normalizeY()
 
@@ -298,16 +299,17 @@ class dataSet(object):
 
 
 # a = dataSet("brute", 500, new=False)
-
-# for x in a.findMinMaxOfFeatures():
-# 	print x,  a.findMinMaxOfFeatures()[x]
-# # print a.return_gaussians()
-
-# # for a in a.get().T:
-# # 	print min(a), max(a)
-
-
 # # print len(a)
+
+# # for x in a.findMinMaxOfFeatures():
+# # 	print x,  a.findMinMaxOfFeatures()[x]
+# # # print a.return_gaussians()
+
+# # # for a in a.get().T:
+# # # 	print min(a), max(a)
+
+
+# # # print len(a)
 
 # import matplotlib.pyplot as plt
 # import skfuzzy as fuzz
@@ -317,8 +319,8 @@ class dataSet(object):
 
 
 # for i, collumn in enumerate(a.get().T):
-# 	# plt.subplot(4,4, i+1)
-# 	if (True): #[2,6]):
+# # 	# plt.subplot(4,4, i+1)
+# 	if True:#i in  [2]:
 
 # 		for b in [2.5*4]:
 # 			plt.title(titles[i] +"\t"+ str(b*0.25+0.1))
@@ -353,7 +355,7 @@ class dataSet(object):
 # 			cntr, u, _, _, _, _, _ = fuzz.cluster.cmeans(
 # 	  		  np.vstack((x,yReal)), centerlist[i], b*0.25+0.1 , 0.05, 50, init=None)
 
-# 			# func = fuzz.gaussmf
+# 			# # func = fuzz.gaussmf
 # 			func= fuzz.gaussmf
 
 # 			fitted= a.findMembershipFunctions(func,x,yReal,centerlist[i])
