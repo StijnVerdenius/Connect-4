@@ -14,9 +14,9 @@
 	- Change the boolean values in the constructor of fuzzytoolbox
 	- For manual adjustments change the fis files for the agents
 
-#### Technical details
+#### Technical details:
 
-##### python2.7
+##### python2.7 (!!)
 
 Recuired packages:
 
