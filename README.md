@@ -10,13 +10,20 @@
 
 - In code, run python 4opeenrij.py to run the program
 
+- If you want to regenerate data/relearn rules etc, go to -> code -> players -> fuzzyAgent
+	- Change the boolean values in the constructor of fuzzytoolbox
+	- For manual adjustments change the fis files for the agents
+
 #### Technical details
 
-- programmed in python2.7
+##### python2.7
 
 Recuired packages:
 
 numpy
+
 sklearn
+
 skfuzzy
+
 scipy
