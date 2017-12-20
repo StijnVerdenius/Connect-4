@@ -119,7 +119,7 @@ class algorithm:
 
 
 			# (only for debugging)
-			print "move : " , move, "score { X:", X, " O:", O, "} ", moveScore
+			print "move : " , move#, "score { X:", X, " O:", O, "} ", moveScore
 			# if ( moveScore > bestMove[1]):
 			# 	print "nieuw", bestMove
 			# 	bestMove = (move, moveScore)
